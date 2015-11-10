@@ -2,6 +2,7 @@
 
 ## Quick Start
 Clone the repo and bundle
+
     git clone https://github.com/AhnafSiddiqi/sample-ordinary-bookstore.git
     cd sample-ordinary-bookstore
     bundle install
