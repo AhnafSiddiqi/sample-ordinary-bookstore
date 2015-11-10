@@ -3,7 +3,7 @@
 ## Workflow
 There are 3 main branches and all other branches should be a child of these
 
-    development (main branch to check if everything is working as per required, then merge to master)
+    development (branch to check functionality as per required, then merge to master)
     feature
     fixes
 
@@ -22,7 +22,7 @@ Setting up `database.yml` based on your needs. (Use the default settings if you'
 
 Create the database and run migrate
 
-    rake db:create db:migrate db:seed
+    rake db:create db:migrate 
 
 ## Testing the app
 Run the specs with `rspec`
