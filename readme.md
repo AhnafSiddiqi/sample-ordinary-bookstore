@@ -1,5 +1,12 @@
 ## Overview
 
+## Workflow
+There are 3 main branches and all other branches should be a child of these
+
+    development (main branch to check if everything is working as per required, then merge to master)
+    feature
+    fixes
+
 ## Quick Start
 Clone the repo and bundle
 
