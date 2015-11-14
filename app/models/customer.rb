@@ -6,4 +6,6 @@ class Customer < ActiveRecord::Base
   has_many :review_ratings
   has_many :reviews
 
+  validates :login_id, presence: true
+
 end
