@@ -19,5 +19,6 @@
 # environment and database variables 
 config/.env
 config/database.yml
-.env 
+.env
+.idea
 

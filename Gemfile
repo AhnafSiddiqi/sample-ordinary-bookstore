@@ -9,6 +9,9 @@ gem 'rails', '4.2.4'
 gem 'pg'
 
 
+#generate erd from models
+gem "rails-erd"
+
 # front-end stack
 
 gem 'sass-rails', '~> 5.0'
