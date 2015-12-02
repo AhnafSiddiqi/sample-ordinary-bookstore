@@ -20,15 +20,15 @@ Setting up `database.yml` based on your needs. (Use the default settings if you'
 
     ** CHANGE THE DETAILS BEFORE PROCEEDING 
 
-Create the database and run migrate
-	
-	run the schema.sql without the rails framework
+Set up database with postgres:
 
-	inside rails:
+    rake db:create
 
-    rake db:create 
+    run the schema.sql in postgres
+
     rake db:schema:dump
-    rake db:migrate 
+    
+    rake db:migrate
 
 ## Testing the app
 Run the specs with `rspec`
