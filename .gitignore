@@ -19,6 +19,7 @@
 # environment and database variables 
 config/.env
 config/database.yml
+.byebug_history
 .env
 .idea
 
