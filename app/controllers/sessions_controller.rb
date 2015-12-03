@@ -5,7 +5,8 @@ class SessionsController < ApplicationController
 
   def create     
     user = User.find_by(login_id: params[:session][:login].downcase) # need to change to db query
-    if user
+    authenticate = verify_user_password(user, params) 
+    if user && authenticate
       log_in user
       render 'new'
     else 
