@@ -4,12 +4,9 @@ ruby '2.2.3'
 
 gem 'rails', '4.2.4'
 
-
-# Use postgresql as the database for Active Record
-gem 'pg'
-
-#generate erd from models
-gem "rails-erd"
+gem 'pg'                 # use postgresql as the database for Active Record
+gem 'rails-erd'          # generate erd from models
+gem 'bcrypt'             # generate hash for password
 
 # front-end stack
 gem 'bootstrap-sass', '~> 3.3.6'
