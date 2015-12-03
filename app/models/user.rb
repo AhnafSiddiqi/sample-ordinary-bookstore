@@ -10,5 +10,5 @@ class User < ActiveRecord::Base
                        uniqueness: { case_sensitive: false },
                        format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
   validates :password, presence: true,
-                       minimum: { 4 }
+                       length: { minimum: 4 }
 end
