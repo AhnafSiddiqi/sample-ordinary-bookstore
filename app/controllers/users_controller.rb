@@ -10,7 +10,6 @@ class UsersController < ApplicationController
       assign_hashed_password (params)
       @user = User.new(user_params)
       if @user.valid?
-        byebug
         insert_user_db (params)
         create_customer
         flash.now[:success] = "You signed up successfully"
@@ -20,7 +19,7 @@ class UsersController < ApplicationController
       end
     else 
       @user = User.new
-      @user.errors.add(:password, "doesn't match!")
+      @user.errors.add(:password_digest, "doesn't match!")
       render 'signup'
     end
   end
@@ -31,7 +30,7 @@ class UsersController < ApplicationController
   private 
 
     def user_params
-      params.require(:user).permit(:login_id, :password)
+      params.require(:user).permit(:login_id, :password_digest)
     end
 
 end
