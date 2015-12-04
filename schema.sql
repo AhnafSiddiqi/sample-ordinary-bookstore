@@ -25,7 +25,7 @@ create table customers(
 	mobile int,
 	address text,
 	cc_no text,
-	foreign key(id) references users(id)
+	foreign key(id) references users(id) on delete cascade 
 );
 
 create table store_managers(
