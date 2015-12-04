@@ -6,5 +6,6 @@ Rails.application.routes.draw do
 
   get 'signup'  => 'users#new'
 
-  resources :users
+  resources :users, only: [:destroy]
+  resources :users, path: 'signup', only: [:create]
 end
