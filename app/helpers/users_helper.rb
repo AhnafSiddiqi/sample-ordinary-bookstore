@@ -7,18 +7,18 @@ module UsersHelper
   end
 
   def password_confirmation(params)  
-    password = params[:user][:password]
+    password = params[:user][:password_digest]
     password_confirmation = params[:user][:password_confirmation]
     (password == password_confirmation) ? true : false
   end
 
   def assign_hashed_password(params)
     hashed_password = params_hashify_password (params)
-    params[:user][:password] = hashed_password
+    params[:user][:password_digest] = hashed_password
   end
 
   def params_hashify_password(params)
-    BCrypt::Password.create(params[:user][:password])
+    BCrypt::Password.create(params[:user][:password_digest])
   end
 
   def create_customer

@@ -50,7 +50,7 @@ class CreateDatabase < ActiveRecord::Migration
 
     create_table "users", force: :cascade do |t|
       t.text "login_id"
-      t.text "password", null: false
+      t.text "password_digest", null: false
     end
 
     add_index "users", ["login_id"], name: "users_login_id_key", unique: true, using: :btree

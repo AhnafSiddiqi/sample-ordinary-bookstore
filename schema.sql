@@ -16,7 +16,7 @@
 create table users(
 	id serial primary key,
 	login_id text unique,
-	password text not null
+	password_digest text not null
 );
 
 create table customers(
