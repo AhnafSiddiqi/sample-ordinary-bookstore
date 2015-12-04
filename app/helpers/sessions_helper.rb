@@ -19,8 +19,8 @@ module SessionsHelper
   end
 
   def verify_user_password(user, params)
-    user_password = user.password
-    BCrypt::Password.new(params[:session][:password]) == user_password
+    user_password = user.password_digest
+    BCrypt::Password.new(user_password) == params[:session][:password]
   end
 
 end
