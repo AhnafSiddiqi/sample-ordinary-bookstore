@@ -1,0 +1,21 @@
+.book-cell {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #ddd;
+}
+
+
+.dl-horizontal {
+  margin-right: 10%;
+  margin-left: 10%;
+
+
+  dt {
+    text-align: left;
+    width: 100px;
+  }
+
+  dd {
+    margin-left: 150px
+  }
+}
