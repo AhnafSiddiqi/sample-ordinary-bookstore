@@ -1,11 +1,11 @@
 class Customer < ActiveRecord::Base
 
-  belongs_to :user
+  belongs_to :user, primary_key: 'id', foreign_key: 'id'
 
   has_many :orders
   has_many :review_ratings
   has_many :reviews
 
-  validates :login_id, presence: true
+  validates :id, presence: true
 
 end
