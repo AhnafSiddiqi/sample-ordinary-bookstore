@@ -22,10 +22,14 @@ class CreateDatabase < ActiveRecord::Migration
       t.text    "cc_no"
     end
 
+    create_table "order_items", id: false, force: :cascade do |t|
+      t.integer "order_id", null: false
+      t.text    "book_id",  null: false
+      t.integer "copies",   null: false
+    end
+
     create_table "orders", force: :cascade do |t|
       t.integer "customer_id", null: false
-      t.text    "book_id",     null: false
-      t.integer "copies"
       t.date    "order_date"
       t.text    "status"
     end
@@ -56,7 +60,8 @@ class CreateDatabase < ActiveRecord::Migration
     add_index "users", ["login_id"], name: "users_login_id_key", unique: true, using: :btree
 
     add_foreign_key "customers", "users", column: "id", name: "customers_id_fkey", on_delete: :cascade
-    add_foreign_key "orders", "books", primary_key: "isbn13", name: "orders_book_id_fkey"
+    add_foreign_key "order_items", "books", primary_key: "isbn13", name: "order_items_book_id_fkey"
+    add_foreign_key "order_items", "orders", name: "order_items_order_id_fkey"
     add_foreign_key "orders", "customers", name: "orders_customer_id_fkey"
     add_foreign_key "review_ratings", "customers", column: "customer_id1", name: "review_ratings_customer_id1_fkey"
     add_foreign_key "review_ratings", "reviews", column: "customer_id2", primary_key: "customer_id", name: "review_ratings_customer_id2_fkey"
