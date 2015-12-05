@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     authenticate = verify_user_password(user, params) 
     if user && authenticate
       log_in user
-      render 'new'
+      redirect_to books_path
     else 
       flash.now[:danger] = "Invalid login/password combination"
       render 'new'
