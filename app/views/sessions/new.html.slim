@@ -4,15 +4,13 @@ h1.header
   = yield(:title)
 
 - if logged_in? 
-  .row 
-    .col-md-4.col-md-offset-4
-      p You're logged in. 
-      = link_to "Log Out", logout_path
-
+  = render 'shared/logout'
   
 - else 
+
   .row 
     .col-md-4.col-md-offset-4
+
       = form_for(:session, url: login_path) do |f|
         = f.label :email
         = f.email_field :login, class: 'form-control'
