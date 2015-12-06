@@ -8,9 +8,10 @@ Rails.application.routes.draw do
   # signup routes
   get 'signup'  => 'users#new'
 
-
-  resources :users, only: [:show, :destroy]
+  resources :users,                 only: [:show, :destroy]
   resources :users, path: 'signup', only: [:create]
+  resources :books,                 only: [:update, :index, :create]
+  resources :orders,                only: [:create, :show]
+  resources :order_items,           only: [:create]
 
-  resources :books, only: [:update, :index, :create]
 end
