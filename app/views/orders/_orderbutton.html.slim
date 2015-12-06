@@ -1,0 +1,12 @@
+- if pending_order?
+
+  - order = current_order 
+  
+  = button_to "View Order", order, class: "btn btn-primary"
+
+- else 
+
+  = form_for(@order) do |f|
+
+    = hidden_field_tag :customer_id, current_customer_id
+    = f.submit "Create Order", class: "btn btn-warning"
