@@ -31,4 +31,8 @@ module UsersHelper
     end
   end
 
+  def current_customer_id
+    current_user.id
+  end
+
 end
