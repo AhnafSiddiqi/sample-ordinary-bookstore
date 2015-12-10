@@ -7,5 +7,6 @@ class ApplicationController < ActionController::Base
   include UsersHelper
   include SqlHelper
   include OrdersHelper
+  include OrderItemsHelper
     
 end
