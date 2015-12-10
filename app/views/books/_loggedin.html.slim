@@ -37,6 +37,13 @@
 
     .col-md-3
     
-      button Add to Order
+      = form_for(:items, url: add_order_items_path, remote: true) do |f|
+
+        = hidden_field_tag :book, book.isbn13
+        = f.submit "Add Book", class: "btn btn-default"z
+
+        - if book_in_order? (book.isbn13)
+          = f.submit "Remove Book ", class: "btn btn-default"
+
       button.pull-right Rating?
       button.pull-right Helpfulness?
