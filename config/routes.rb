@@ -12,6 +12,10 @@ Rails.application.routes.draw do
   resources :users, path: 'signup', only: [:create]
   resources :books,                 only: [:update, :index, :create]
   resources :orders,                only: [:create, :show]
-  resources :order_items,           only: [:create]
+  resources :order_items, only: [:create] do
+    collection do 
+      post :add
+    end
+  end
 
 end
