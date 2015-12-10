@@ -15,12 +15,17 @@ module SessionsHelper
 
   def log_out
     session.delete(:login)
+    session.delete(:items)
     @current_user = nil
   end
 
   def verify_user_password(user, params)
-    user_password = user.password_digest
-    BCrypt::Password.new(user_password) == params[:session][:password]
+    begin
+      user_password = user.password_digest
+      BCrypt::Password.new(user_password) == params[:session][:password]
+    rescue
+      return false
+    end
   end
 
 end
