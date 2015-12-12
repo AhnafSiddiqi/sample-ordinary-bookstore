@@ -3,21 +3,15 @@
 h1.header 
   = yield(:title)
 
-- if logged_in? 
-  .row 
-    .col-md-4.col-md-offset-4
-      p You're logged in. 
-      = link_to "Log Out", logout_path
+.row
+  .col-md-4.col-md-offset-4
+    = form_for(:session, url: login_path) do |f|
+      = f.label :email
+      = f.email_field :login, class: 'form-control'
 
-  
-- else 
-  .row 
-    .col-md-4.col-md-offset-4
-      = form_for(:session, url: login_path) do |f|
-        = f.label :email
-        = f.email_field :login, class: 'form-control'
+      = f.label :password
+      = f.password_field :password, class: 'form-control'
 
-        = f.label :password
-        = f.password_field :password, class: 'form-control'
+      = f.submit "Log in"
 
-        = f.submit "Log in"
+    = button_to "Sign Up", signup_path, method: :get
