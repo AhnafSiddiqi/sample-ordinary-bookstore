@@ -30,5 +30,7 @@ Set up database with postgres:
     
     rake db:migrate
 
+    rake db:seed
+
 ## Testing the app
-Run the specs with `rspec`
+No test is written right now. Work for the unforeseen future...
