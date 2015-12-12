@@ -20,7 +20,7 @@
         dt ISBN
         dd = book.isbn13
 
-    .col-md-4
+    .col-md-3
     
       dl.dl-horizontal
         dt Publisher
@@ -35,15 +35,46 @@
         dt Format
         dd = book.format.titleize
 
-    .col-md-3
-    
-      = form_for(:items, url: add_order_items_path, remote: true) do |f|
+    .col-md-1.number-ordered id="#{book.isbn13}-avail"
+      h4 # Books
+      - if @ordered_books.present?
+        h3 = available_copies(@ordered_books, "#{book.isbn13}")
+      - else 
+        h3 = book.copies
 
-        = hidden_field_tag :book, book.isbn13
-        = f.submit "Add Book", class: "btn btn-default"z
+    .col-md-1.number-ordered id="#{book.isbn13}"
+      h4 # Ordered
+      - if @ordered_books.present?
+        h3 = ordered_copies(@ordered_books, "#{book.isbn13}")
+      - else 
+        h3 0
 
-        - if book_in_order? (book.isbn13)
-          = f.submit "Remove Book ", class: "btn btn-default"
+    - if pending_order? 
+
+      .col-md-1.order-buttons
+
+        = form_for(:items, url: add_order_items_path, html: { id: "add-#{book.isbn13}" }, remote: true) do |f|
+
+          = hidden_field_tag :book, book.isbn13
+          
+          .row 
+            .col-md-12
+        
+              = f.button :submit, class: "btn btn-info raised", id: "#{book.isbn13}-add" do |block|
+                i.glyphicon.glyphicon-plus
+              end
+
+        = form_for(:items, url: rmv_order_items_path, html: { id: "rmv-#{book.isbn13}" }, remote: true) do |f|
+
+          = hidden_field_tag :book, book.isbn13
+
+          .row 
+            .col-md-12
+              = f.button :submit, class: "btn btn-info raised", id: "#{book.isbn13}-rmv" do |block|
+                i.glyphicon.glyphicon-minus
+              end
+
+    .col-md-1
 
       button.pull-right Rating?
       button.pull-right Helpfulness?
