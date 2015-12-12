@@ -1,6 +1,8 @@
 class OrdersController < ApplicationController
 
   def show
+    @order = Order.find_by_sql("SELECT * FROM orders WHERE id = '#{params[:id]}'")[0]
+    @orders = populate_order_list
     render 'show'
   end
 
@@ -12,6 +14,11 @@ class OrdersController < ApplicationController
     else
       render 'books/index'
     end      
+  end
+
+  def destroy
+    cancel_order params[:order_id]
+    redirect_to books_path
   end
 
   private
