@@ -1,0 +1,67 @@
+- provide(:title, 'Books')
+
+.container#index
+
+  - if logged_in?
+
+    .row#header 
+      .col-md-3
+
+        = render "shared/logout"
+      
+      .col-md-3
+        = link_to "Add Book", new_book_path, class: "btn btn-success btn-lg "
+      
+      .col-md-5
+
+        = render "orders/orderbutton"
+
+    - if @ordered_books.present?
+      
+      = render "loggedin", :locals => { :books => @books, :ordered_books => @ordered_books }
+    
+    - else 
+    
+      = render "loggedin", :locals => { :books => @books }
+
+  - else
+
+    - @books.each do |book|
+       
+      .row.book-cell
+
+        .col-md-2.col-md-offset-1
+
+          = image_tag("default_icon", height:"100px", width: "100px", class: "img-responsive")
+
+        .col-md-4
+        
+          dl.dl-horizontal
+            dt Title
+            dd = book.title
+
+            dt Subject
+            dd = book.subject
+
+            dt Authors
+            dd = book.authors
+
+            dt ISBN
+            dd = book.isbn13
+
+        .col-md-4
+        
+          dl.dl-horizontal
+            dt Publisher
+            dd = book.publisher
+
+            dt Published In
+            dd = book.year_of_publication
+
+            dt Price 
+            dd = book.price
+
+            dt Format
+            dd = book.format.titleize
+
+

@@ -48,14 +48,21 @@ create table reviews(
 create table orders(
 	id serial primary key,
 	customer_id integer not null,
-	book_id text not null,
-	copies int,
 	order_date date,
 	status text,
-	foreign key(customer_id) references customers(id),
-	foreign key(book_id) references books(isbn13),
+	foreign key(customer_id) references customers(id) on delete cascade,
 	check (status = 'pending' or status = 'processed' or status = 'cancelled')
 );
+
+create table order_items(
+	order_id integer,
+	book_id text,
+	copies int not null,
+	primary key(order_id, book_id),
+	foreign key(book_id) references books(isbn13),
+	foreign key(order_id) references orders(id)
+);
+
 
 create table review_ratings(
 	customer_id1 integer not null,
