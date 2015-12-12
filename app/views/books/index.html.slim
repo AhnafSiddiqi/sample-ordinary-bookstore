@@ -13,8 +13,13 @@
 
         = render "orders/orderbutton"
 
-
-    = render "loggedin", :locals => { :books => @books }
+    - if @ordered_books.present?
+      
+      = render "loggedin", :locals => { :books => @books, :ordered_books => @ordered_books }
+    
+    - else 
+    
+      = render "loggedin", :locals => { :books => @books }
 
   - else
 
