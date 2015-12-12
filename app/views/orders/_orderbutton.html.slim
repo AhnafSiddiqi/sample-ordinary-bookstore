@@ -2,11 +2,11 @@
 
   - order = current_order 
   
-  = link_to "View Order", order, class: "btn btn-success btn-lg round", id: "order"
+  = link_to "View Order", order, class: "btn btn-success btn-lg round pull-right", id: "order"
 
 - else 
 
   = form_for(@order) do |f|
 
     = hidden_field_tag :customer_id, current_customer_id
-    = f.submit "Create Order", class: "btn btn-warning btn-lg round", id: "order"
+    = f.submit "Create Order", class: "btn btn-warning btn-lg round pull-right", id: "order"

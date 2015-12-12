@@ -1,21 +1,23 @@
+
 - provide(:title, "Log in")
 
-h1.header 
+h1.text-center
   = yield(:title)
 
-- if logged_in? 
-  = render 'shared/logout'
-  
-- else 
+.row 
+  .col-md-4.col-md-offset-4
 
-  .row 
-    .col-md-4.col-md-offset-4
+    = form_for(:session, url: login_path) do |f|
+      = f.label :email
+      = f.email_field :login, class: 'form-control'
 
-      = form_for(:session, url: login_path) do |f|
-        = f.label :email
-        = f.email_field :login, class: 'form-control'
+      = f.label :password
+      = f.password_field :password, class: 'form-control'
 
-        = f.label :password
-        = f.password_field :password, class: 'form-control'
 
-        = f.submit "Log in"
+      .row#login-page-button 
+        .col-md-6
+          = f.submit "Log in", class: "btn btn-success"
+
+        .col-md-6
+          = button_to "Sign Up", signup_path, method: :get, class: "btn btn-primary pull-right"

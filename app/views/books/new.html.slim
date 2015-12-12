@@ -1,0 +1,40 @@
+- provide(:title, "Add Book")
+.container
+  .row
+    .col-md-12.text-center 
+      h1 Add New Book
+
+  .row 
+    .col-md-4.col-md-offset-4
+      = form_for(@book) do |f|
+          = f.label "ISBN13"
+          = f.text_field :isbn13, class: "form-control"
+
+          = f.label "Title"
+          = f.text_field :title, class: "form-control"
+
+          = f.label "Format"
+          = f.select :format, ['hardcover', 'paperback'], {}, { class: "form-control" }
+
+          = f.label "Publisher"
+          = f.text_field :publisher, class: "form-control"
+
+          = f.label "Year Of Publication"
+          = f.number_field :year_of_publication, class: "form-control"
+
+          = f.label "Copies"
+          = f.number_field :copies, class: "form-control"
+
+          = f.label "Keywords"
+          = f.text_field :keywords, class: "form-control"
+
+          = f.label "Subject"
+          = f.text_field :subject, class: "form-control"
+
+          = f.label "Price"
+          = f.number_field :price, step: 'any', class: "form-control"
+
+          = f.label "Authors"
+          = f.text_field :authors, class: "form-control"
+
+          = f.submit "Add Book", class: "btn btn-danger btn-lg", style: "margin-top: 25px; margin-bottom: 25px; width: 100%"

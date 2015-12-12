@@ -1,6 +1,11 @@
 class SessionsController < ApplicationController
 
   def new
+    if logged_in?
+      redirect_to books_path
+    else
+      render 'new'
+    end
   end
 
   def create     

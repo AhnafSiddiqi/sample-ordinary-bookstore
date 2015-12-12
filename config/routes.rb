@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   # login routes
+  root to: 'sessions#new'
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   get 'logout' => 'sessions#destroy'
@@ -10,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :users,                 only: [:show, :destroy]
   resources :users, path: 'signup', only: [:create]
-  resources :books,                 only: [:update, :index, :create]
+  resources :books,                 only: [:update, :index, :create, :new, :show]
   resources :orders,                only: [:create, :show, :destroy]
   resources :order_items, only: [:create] do
     collection do 
@@ -18,5 +19,4 @@ Rails.application.routes.draw do
       post :rmv
     end
   end
-
 end

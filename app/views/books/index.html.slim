@@ -1,15 +1,18 @@
 - provide(:title, 'Books')
 
-.container
+.container#index
 
   - if logged_in?
 
-    .row 
-      .col-md-4.col-md-offset-4
+    .row#header 
+      .col-md-3
 
         = render "shared/logout"
       
-      .col-md-4
+      .col-md-3
+        = link_to "Add Book", new_book_path, class: "btn btn-success btn-lg "
+      
+      .col-md-5
 
         = render "orders/orderbutton"
 
@@ -62,12 +65,3 @@
             dd = book.format.titleize
 
 
-/ javascript:
-/   swal({
-/     title: "Auto close alert!",
-/     text: "I will close in 2 seconds.",
-/     timer: 2000,
-/     showConfirmButton: false 
-/   });
-
-/ onclick: "swal('Order Created', 'Your order is created, please select books to submit', 'success')"
