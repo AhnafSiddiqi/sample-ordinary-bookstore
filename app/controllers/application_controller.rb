@@ -8,5 +8,6 @@ class ApplicationController < ActionController::Base
   include SqlHelper
   include OrdersHelper
   include OrderItemsHelper
+  include BooksHelper
     
 end
