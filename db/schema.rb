@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 0) do
   add_foreign_key "customers", "users", column: "id", name: "customers_id_fkey", on_delete: :cascade
   add_foreign_key "order_items", "books", primary_key: "isbn13", name: "order_items_book_id_fkey"
   add_foreign_key "order_items", "orders", name: "order_items_order_id_fkey"
-  add_foreign_key "orders", "customers", name: "orders_customer_id_fkey"
+  add_foreign_key "orders", "customers", name: "orders_customer_id_fkey", on_delete: :cascade
   add_foreign_key "review_ratings", "customers", column: "customer_id1", name: "review_ratings_customer_id1_fkey"
   add_foreign_key "review_ratings", "reviews", column: "customer_id2", primary_key: "customer_id", name: "review_ratings_customer_id2_fkey"
   add_foreign_key "reviews", "books", primary_key: "isbn13", name: "reviews_book_id_fkey"

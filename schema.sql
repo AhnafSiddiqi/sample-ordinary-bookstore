@@ -50,7 +50,7 @@ create table orders(
 	customer_id integer not null,
 	order_date date,
 	status text,
-	foreign key(customer_id) references customers(id),
+	foreign key(customer_id) references customers(id) on delete cascade,
 	check (status = 'pending' or status = 'processed' or status = 'cancelled')
 );
 
