@@ -9,5 +9,5 @@ class User < ActiveRecord::Base
   validates :login_id, presence: true,
                        uniqueness: { case_sensitive: false },
                        format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
-  validates :password, presence: true
+  validates :password_digest, presence: true
 end
