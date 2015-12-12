@@ -5,16 +5,20 @@
   - if logged_in?
 
     .row#header 
+
       .col-md-3
 
         = render "shared/logout"
       
       .col-md-3
+
         = link_to "Add Book", new_book_path, class: "btn btn-success btn-lg "
       
-      .col-md-5
+      .col-md-6
 
         = render "orders/orderbutton"
+
+    = render "search"
 
     - if @ordered_books.present?
       
@@ -23,6 +27,7 @@
     - else 
     
       = render "loggedin", :locals => { :books => @books }
+
 
   - else
 
