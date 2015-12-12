@@ -1,0 +1,36 @@
+.container
+  .col-md-4.col-md-offset-4
+    h1 Add a new Book
+    = form_for(@book) do |f|
+      .col-md-12
+        .row
+          = f.label "ISBN13"
+          = f.text_field :isbn13
+        .row
+          = f.label "title"
+          = f.text_field :title
+        .row
+          = f.label "formal"
+          = f.select :format, ['hardcover', 'paperback']
+        .row
+          = f.label "publisher"
+          = f.text_field :publisher
+        .row
+          = f.label "year_of_publication"
+          = f.number_field :year_of_publication
+        .row
+          = f.label "copies"
+          = f.number_field :copies
+        .row
+          = f.label "keywords"
+          = f.text_field :keywords
+        .row
+          = f.label "subject"
+          = f.text_field :subject
+        .row
+          = f.label "price"
+          = f.number_field :price, step: 'any'
+        .row
+          = f.label "authors"
+          = f.text_field :authors
+          = f.submit

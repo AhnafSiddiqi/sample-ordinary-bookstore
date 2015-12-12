@@ -1,0 +1,31 @@
+.container
+  table.table.table-striped
+    thead
+      tr
+        th ISBN13
+        th Title
+        th Format
+        th Publisher
+        th Year Of Publication
+        th Copies
+        th Keywords
+        th Subject
+        th Price
+        th Authors
+
+    tbody
+      - Book.all.each do |b|
+        tr
+          td = b.isbn13
+          td = b.title
+          td = b.format
+          td = b.publisher
+          td = b.year_of_publication
+          td = b.copies
+          td = b.keywords
+          td = b.subject
+          td = b.price
+          td = b.authors
+
+  = link_to "Add New Book", new_book_path
+  = link_to "Log Out", logout_path
