@@ -9,4 +9,5 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show, :destroy]
   resources :users, path: 'signup', only: [:create]
+  resources :books, only: [:index, :new, :show, :create, :update]
 end
