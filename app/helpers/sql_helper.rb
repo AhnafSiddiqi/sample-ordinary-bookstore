@@ -124,7 +124,7 @@ module SqlHelper
     query = "INSERT INTO review_ratings
             (customer_id, customer_id2, book_id, rating)
             VALUES
-            ('#{c}','#{c2}','#{b}','#{r}')"
+            ('#{c}','#{c2}','#{b}','#{r}')"∂
     ReviewRating.connection.execute(query)
   end
 
