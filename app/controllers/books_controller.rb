@@ -1,11 +1,19 @@
 class BooksController < ApplicationController
   
   def index
-    @books = Book.all()
-    @order = Order.new
-    if !(session[:items].nil?)
-      @ordered_books = session[:items]
+    temp_books = nil
+    params[:search].present? ? temp_books = book_search(params[:search]) : @books = find_all_books
+    if !(temp_books.nil?) 
+      if (temp_books == false)
+        flash.now[:danger] = "Please select the Operators at the correct level" 
+        @books = find_all_books
+      else 
+         @books = temp_books
+      end
     end
+    !(session[:items].nil?) ? @ordered_books = session[:items] : 0
+    @order = Order.new
+
     respond_to do |format|
       format.html
       format.js {}
