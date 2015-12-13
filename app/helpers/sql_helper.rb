@@ -124,7 +124,7 @@ module SqlHelper
     query = "INSERT INTO review_ratings
             (customer_id, customer_id2, book_id, rating)
             VALUES
-            ('#{c}','#{c2}','#{b}','#{r}')"∂
+            ('#{c}','#{c2}','#{b}','#{r}')"
     ReviewRating.connection.execute(query)
   end
 
@@ -136,5 +136,13 @@ module SqlHelper
     r_date = review_params[:review_date]
     query = "INSERT INTO reviews (customer_id, book_id, score, comment, review_date) VALUES ('#{c_id}','#{b_id}','#{score}','#{comment}', '#{r_date}')"
     Review.connection.execute(query)
+  end
+
+  def get_review_usefulness(customer2)
+    query = "SELECT AVG(rating) as usefulness FROM review_ratings
+            WHERE
+            customer_id2 = '#{customer2}'"
+    average = ReviewRating.find_by_sql(query)[0]
+
   end
 end

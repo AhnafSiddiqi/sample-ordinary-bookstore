@@ -70,7 +70,7 @@
               dd = f.review_date
             .col-md-4
               dt Usefulness
-              dd = f
+              dd = get_review_usefulness(f.customer_id).usefulness
 
               -if current_customer != find_customer_by(f.customer_id)
                 dt Rate
