@@ -137,4 +137,15 @@ module SqlHelper
     query = "INSERT INTO reviews (customer_id, book_id, score, comment, review_date) VALUES ('#{c_id}','#{b_id}','#{score}','#{comment}', '#{r_date}')"
     Review.connection.execute(query)
   end
+
+  def retrieve_customer_order_history(customer_id)
+    query = "SELECT * FROM 
+             (SELECT * FROM orders WHERE customer_id = '#{customer_id}') 
+             AS ORDERS 
+             LEFT OUTER JOIN 
+             order_items 
+             ON ORDERS.id = order_items.order_id"
+    ActiveRecord::Base.connection.execute(query)
+  end
+
 end
