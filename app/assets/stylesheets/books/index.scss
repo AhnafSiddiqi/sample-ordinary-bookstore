@@ -80,4 +80,13 @@
     background: #33a6cc;
     box-shadow: none;
   }
+
+  .btn-info.raised {
+    box-shadow: 0 3px 0 0 #007299;
+  }
+  
+  .btn-info.raised:active, .btn-info.raised.active {
+    background: #33a6cc;
+    box-shadow: none;
+  }
 }
