@@ -65,7 +65,6 @@ create table order_items(
   foreign key(order_id) references orders(id)
 );
 
-
 create table review_ratings(
   customer_id integer not null,
   book_id text not null,

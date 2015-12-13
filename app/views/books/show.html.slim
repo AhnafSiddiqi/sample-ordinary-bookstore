@@ -70,14 +70,15 @@
               dd = f.review_date
             .col-md-4
               dt Usefulness
-              dd = f
+              dd = get_review_usefulness(@book.id, f.customer_id)
 
               -if current_customer != find_customer_by(f.customer_id)
-                dt Rate
-                =form_for(ReviewRating.new, url: review_ratings_path, method: :post, action: :create) do |r|
-                  = r.hidden_field :customer_id, value: current_customer.id
-                  = r.hidden_field :customer_id2, value: f.customer_id
-                  = r.hidden_field :book_id, value: @book.id
-                  = r.number_field :rating, within: 0..2
-                  = r.submit
+                - if ReviewRating.find_by(customer_id: f.customer_id, book_id: @book.id).nil?
+                  dt Rate
+                  =form_for(ReviewRating.new, url: review_ratings_path, method: :post, action: :create) do |r|
+                    = r.hidden_field :customer_id, value: current_customer.id
+                    = r.hidden_field :customer_id2, value: f.customer_id
+                    = r.hidden_field :book_id, value: @book.id
+                    = r.number_field :rating, within: 0..2
+                    = r.submit
           hr
