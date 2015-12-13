@@ -3,7 +3,7 @@
   .row.book-cell
 
     .col-md-1
-      = image_tag("default_icon", size: "", class: "img-responsive")
+      = link_to image_tag("default_icon", size: "", class: "img-responsive"), book_path(book)
 
     .col-md-4
     
@@ -78,3 +78,5 @@
 
       button.pull-right Rating?
       button.pull-right Helpfulness?
+      - if user_type == 'manager'
+          button.pull-right update copies

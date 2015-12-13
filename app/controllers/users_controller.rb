@@ -1,5 +1,4 @@
-class UsersController < ApplicationController 
-
+class UsersController < ApplicationController
   def new
     @user = User.new
     render 'signup'
@@ -11,13 +10,18 @@ class UsersController < ApplicationController
       @user = User.new(user_params)
       if @user.valid?
         insert_user_db (params)
-        create_customer
-        flash.now[:success] = "You signed up successfully"
-        redirect_to @user
+        @user = User.last
+        if @user.id == 1
+          create_store_manager
+        else
+          create_customer
+        end
+        flash.now[:success] = 'You signed up successfully'
+        render 'signup'
       else
         render 'signup'
       end
-    else 
+    else
       @user = User.new
       @user.errors.add(:password_digest, "doesn't match!")
       render 'signup'
@@ -27,10 +31,9 @@ class UsersController < ApplicationController
   def destroy
   end
 
-  private 
+  private
 
-    def user_params
-      params.require(:user).permit(:login_id, :password_digest)
-    end
-
+  def user_params
+    params.require(:user).permit(:login_id, :password_digest)
+  end
 end

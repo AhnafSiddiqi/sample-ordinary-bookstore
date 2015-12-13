@@ -1,5 +1,4 @@
 module OrdersHelper
-
   def pending_order?
     user = current_user
     order_status = find_pending_order user
@@ -15,5 +14,4 @@ module OrdersHelper
   def cancel_order(id)
     update_order_status(id, 'cancelled')
   end
-
 end

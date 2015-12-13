@@ -25,19 +25,20 @@ create table customers(
 	mobile int,
 	address text,
 	cc_no text,
-	foreign key(id) references users(id) on delete cascade 
+	foreign key(id) references users(id) on delete CASCADE
 );
 
 create table store_managers(
-	id integer primary key,	 
+	id integer primary key,
 	name text,
-	foreign key(id) references users(id)
+	foreign key(id) references users(id) on delete CASCADE
 );
 
 create table reviews(
 	customer_id integer not null,
 	book_id text not null,
 	score int not null,
+  review_date date,
 	comment text,
 	primary key(customer_id, book_id),
 	foreign key(customer_id) references customers(id),

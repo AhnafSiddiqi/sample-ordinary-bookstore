@@ -1,5 +1,5 @@
 20.times do |k|
-  if (k%5) == 0 || (k%3) == 0
+  if (k % 5) == 0 || (k % 3) == 0
     format = 'hardcover'
   else
     format = 'softcover'
@@ -15,6 +15,10 @@
     keywords: "#{Faker::Lorem.word}, #{Faker::Lorem.word}",
     subject: Faker::Book.genre,
     price: Faker::Commerce.price,
-    authors: "#{Faker::Book.author}, #{Faker::Book.author}",
+    authors: "#{Faker::Book.author}, #{Faker::Book.author}"
   )
 end
+
+password = BCrypt::Password.create('123')
+u = User.create(id: 1, login_id: 'storemanager@bookz.com', password_digest: password)
+StoreManager.create(id: u.id, name: 'Bruce Wayne')

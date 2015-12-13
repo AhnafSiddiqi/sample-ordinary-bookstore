@@ -1,23 +1,18 @@
-class OrderItemsController < ApplicationController 
-
+class OrderItemsController < ApplicationController
   def create
     params[:items][:isbn13].each do |book|
       book_index = params[:items][:isbn13].index(book)
       items = OrderItem.new(order_items_params(book_index))
-      if items.valid?
-        insert_order_items_db(params)
-      end
+      insert_order_items_db(params) if items.valid?
     end
-    update_order_status(params[:order_id], "processed")
+    update_order_status(params[:order_id], 'processed')
     redirect_to books_path
   end
 
   def add
     book = params[:book]
     puts session[:items]
-    if (copies_available? book)
-      store_for_order book
-    end
+    store_for_order book if copies_available? book
     redirect_to books_path
   end
 
@@ -27,17 +22,16 @@ class OrderItemsController < ApplicationController
     redirect_to books_path
   end
 
-  private 
+  private
 
-    def order_items_params(index)
-      populate_proper_params(index)
-      params.permit(:order_id, :copies, :book_id)
-    end
+  def order_items_params(index)
+    populate_proper_params(index)
+    params.permit(:order_id, :copies, :book_id)
+  end
 
-    def populate_proper_params(index)
-      params[:order_id] = params[:order_id]
-      params[:copies] = params[:items][:copies][index]
-      params[:book_id] = params[:items][:isbn13][index]
-    end
-
+  def populate_proper_params(index)
+    params[:order_id] = params[:order_id]
+    params[:copies] = params[:items][:copies][index]
+    params[:book_id] = params[:items][:isbn13][index]
+  end
 end

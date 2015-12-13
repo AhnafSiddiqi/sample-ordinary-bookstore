@@ -1,0 +1,21 @@
+.container
+  .col-md-12
+    dl.dl-horizontal
+      = form_for(@customer) do |f|
+        dd = f.hidden_field :id
+
+        dt Name
+        dd = f.text_field :name
+
+        dt Mobile
+        dd = f.number_field :mobile
+
+        dt Address
+        dd = f.text_field :address
+
+        dt Credit Card
+        dd = f.text_field :cc_no
+
+        = f.submit "Save Changes", method: :put
+
+      =link_to "Books Index", books_path

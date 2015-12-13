@@ -1,8 +1,6 @@
 class User < ActiveRecord::Base
-
-  has_many :customers, primary_key: 'id', foreign_key: "id", dependent: :delete_all 
-  has_many :store_managers, primary_key: 'id', foreign_key: "id", dependent: :delete_all 
-
+  has_many :customers, primary_key: 'id', foreign_key: 'id', dependent: :delete_all
+  has_many :store_managers, primary_key: 'id', foreign_key: 'id', dependent: :delete_all
 
   before_save { self.login_id = login_id.downcase }
 

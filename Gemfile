@@ -16,7 +16,9 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'slim-rails'
 
-# general gems 
+gem 'rubocop'
+
+# general gems
 group :development, :test do
   gem 'byebug'
   gem 'spring'

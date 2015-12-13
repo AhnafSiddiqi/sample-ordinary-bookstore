@@ -1,0 +1,63 @@
+.container
+  .col-md-12
+    h1 Book Information
+
+    .col-md-4
+
+      dl.dl-horizontal
+        dt Title
+        dd = @book.title
+
+        dt Subject
+        dd = @book.subject
+
+        dt Authors
+        dd = @book.authors
+
+        dt ISBN
+        dd = @book.isbn13
+
+    .col-md-4
+
+      dl.dl-horizontal
+        dt Publisher
+        dd = @book.publisher
+
+        dt Published In
+        dd = @book.year_of_publication
+
+        dt Price
+        dd = @book.price
+
+        dt Format
+        dd = @book.format.titleize
+
+        dt Copies
+        -if user_type == 'mamnager'
+          = form_for @book do |b|
+            dd = b.number_field :copies
+            = b.submit "Update Copies"
+        -else
+          dd = @book.copies
+
+    .col-md-4
+      =link_to 'book index', books_path
+
+  .col-md-12
+    hr
+
+    .col-md-4
+      h1 Feedback
+    .col-md-8
+      - if customer_book_review(current_customer.id, @book.id).nil?
+        =link_to "Add a review", new_review_path(book: @book)
+
+    .col-md-12
+      - get_book_reviews(@book.id).each do |f|
+        dl
+          dt Score
+          dd = f.score
+
+          dt Comment
+          dd = f.comment
+        hr

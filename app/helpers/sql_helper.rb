@@ -1,5 +1,4 @@
 module SqlHelper
-
   # Inserts
   def insert_user_db(params)
     login_id = params[:user][:login_id]
@@ -12,6 +11,12 @@ module SqlHelper
     id = user.id
     query = "INSERT INTO customers (id) VALUES ('#{id}')"
     Customer.connection.execute(query)
+  end
+
+  def insert_store_manager_db(user)
+    id = user.id
+    query = "INSERT INTO customers (id) VALUES ('#{id}')"
+    StoreManager.connection.execute(query)
   end
 
   def insert_order_db(params)
@@ -66,10 +71,57 @@ module SqlHelper
     book[0].copies
   end
 
-  def find_book_by (isbn)
+  def find_book_by(isbn)
     book = Book.find_by_sql("SELECT * FROM books WHERE isbn13 = '#{isbn}'")
     book[0]
   end
 
+  def find_customer_by(id)
+    customer = Customer.find_by_sql("SELECT * FROM customers WHERE id = '#{id}'")[0]
+  end
+
+  def update_book(params)
+    isbn13 = params[:isbn13]
+    copies = params[:copies]
+    query = "UPDATE books SET
+             copies=#{copies}
+             WHERE
+             isbn13 = '#{isbn13}'"
+    Book.connection.execute(query)
+  end
+
+  def update_customer(params)
+    id = params[:id]
+    name = params[:name]
+    mobile = params[:mobile]
+    address = params[:address]
+    cc_no = params[:cc_no]
+    query = "UPDATE customers SET
+            name = '#{name}', mobile = '#{mobile}', address = '#{address}', cc_no = '#{cc_no}'
+            WHERE
+            id = '#{id}'"
+    Customer.connection.execute(query)
+  end
+
+  def customer_book_review(customer_id, book_id)
+    customer = find_customer_by(customer_id)
+    c_id = customer.id
+    book = find_book_by(book_id)
+    b_id = book.id
+
+    review = Review.find_by_sql("SELECT * FROM reviews where customer_id = '#{c_id}' and book_id = '#{b_id}'")[0]
+  end
+
+  def get_book_reviews(book_id)
+    reviews = Review.find_by_sql("SELECT * from reviews WHERE book_id = '#{book_id}'")
+  end
+
+  def insert_review_db(review_params)
+    c_id = review_params[:customer_id]
+    b_id = review_params[:book_id]
+    score = review_params[:score]
+    comment = review_params[:comment]
+    query = "INSERT INTO reviews (customer_id, book_id, score, comment) VALUES ('#{c_id}','#{b_id}','#{score}','#{comment}')"
+    Review.connection.execute(query)
+  end
 end
-  
