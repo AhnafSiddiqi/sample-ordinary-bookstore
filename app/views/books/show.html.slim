@@ -48,9 +48,11 @@
 
     .col-md-4
       h1 Feedback
-    .col-md-8
+    .col-md-4
       - if user_type=='customer' && customer_book_review(current_customer.id, @book.id).nil?
         =link_to "Add a review", new_review_path(book: @book)
+    .col-md-4
+
 
     .col-md-12
       - get_book_reviews(@book.id).each do |f|
@@ -73,7 +75,7 @@
               dd = get_review_usefulness(@book.id, f.customer_id)
 
               -if current_customer != find_customer_by(f.customer_id)
-                - if ReviewRating.find_by(customer_id: f.customer_id, book_id: @book.id).nil?
+                - if ReviewRating.find_by(customer_id: current_customer_id, book_id: @book.id, customer_id2: f.customer_id).nil?
                   dt Rate
                   =form_for(ReviewRating.new, url: review_ratings_path, method: :post, action: :create) do |r|
                     = r.hidden_field :customer_id, value: current_customer.id

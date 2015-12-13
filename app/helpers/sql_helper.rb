@@ -113,7 +113,7 @@ module SqlHelper
   end
 
   def get_book_reviews(book_id)
-    reviews = Review.find_by_sql("SELECT * from reviews WHERE book_id = '#{book_id}'")
+    reviews = Review.find_by_sql("SELECT * from reviews WHERE book_id = '#{book_id}' ORDER BY usefulness DESC NULLS LAST")
   end
 
   def insert_review_rating_db(params)
