@@ -55,6 +55,15 @@ module SqlHelper
     session.delete(:items)
   end
 
+  def update_book_copies(params)
+    ordered_copies = params[:copies]
+    book_id = params[:book_id]
+    current_copies = book_copies_in_store(book_id)
+    updated_copies = ordered_copies.to_i - current_copies.to_i
+    query = "UPDATE books SET copies = '#{updated_copies}' WHERE isbn13 = '#{book_id}'"
+    Book.connection.execute(query)
+  end
+
   # Find
   def find_pending_order(user)
     user_id = user.id
@@ -66,9 +75,74 @@ module SqlHelper
     book[0].copies
   end
 
-  def find_book_by (isbn)
-    book = Book.find_by_sql("SELECT * FROM books WHERE isbn13 = '#{isbn}'")
+  def find_all_books
+    Book.find_by_sql("SELECT * FROM books")
+  end
+
+  def find_all_sorted_by(sort)
+    if sort == "year_of_publication"
+      Book.find_by_sql("SELECT * FROM books ORDER BY #{sort} DESC")
+    else 
+      # Not done yet
+      Book.find_by_sql("SELECT * FROM books ORDER BY #{sort} DESC")
+    end
+  end
+
+  def find_by_isbn (isbn)
+    book = Book.find_by_sql("SELECT * FROM books WHERE isbn13 = '#{isbn} DESC'")
     book[0]
+  end
+
+  def find_by_one_column(column, value, sort)
+    if sort == "year_of_publication"
+      collection = Book.find_by_sql("SELECT * FROM books WHERE #{column} LIKE '%#{value}%' ORDER BY #{sort} DESC")
+    else 
+      # Not done yet
+      collection = Book.find_by_sql("SELECT * FROM books WHERE #{column} LIKE '%#{value}%' ORDER BY #{sort} DESC")
+    end
+    collection
+  end
+
+  def find_by_two_column(columns, values, operator ,sort)
+    begin
+      if sort == "year_of_publication"
+        collection = Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%'  ORDER BY #{sort} DESC")
+      else 
+        # Not done yet
+        collection = Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%'  ORDER BY #{sort} DESC")
+      end
+      collection
+    rescue 
+      false
+    end
+  end
+
+  def find_by_three_column(columns, values, operator ,sort)
+    begin 
+      if sort == "year_of_publication"
+        collection = Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%' #{operator} #{columns[2]} LIKE '%#{values[2]}%'  ORDER BY #{sort} DESC")
+      else 
+        # Not done yet
+        collection = Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%'  ORDER BY #{sort} DESC")
+      end
+      collection
+    rescue
+      false
+    end
+  end
+
+  def find_by_four_column(columns, values, operator ,sort)
+    begin
+      if sort == "year_of_publication"
+        collection = Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%' #{operator} #{columns[2]} LIKE '%#{values[2]}%' #{operator} #{columns[3]} LIKE '%#{values[3]}%'  ORDER BY #{sort} DESC")
+      else 
+        # Not done yet
+        collection = Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%'  ORDER BY #{sort} DESC")
+      end
+      collection
+    rescue
+      false
+    end
   end
 
 end
