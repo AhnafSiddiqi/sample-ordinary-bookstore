@@ -10,7 +10,9 @@
       dd = f.text_area :comment
 
       = f.hidden_field :book_id, value: params[:book]
-      /= hidden_field_tag 'book', params[:book]; byebug
+
+      = f.hidden_field :review_date, value: Time.now.to_s
       = f.submit
+
     = link_to "Back", book_path(find_book_by(params[:book]))
 

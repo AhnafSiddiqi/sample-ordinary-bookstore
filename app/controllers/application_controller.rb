@@ -9,4 +9,5 @@ class ApplicationController < ActionController::Base
   include OrdersHelper
   include OrderItemsHelper
   include BooksHelper
+  include ReviewRatingsHelper
 end

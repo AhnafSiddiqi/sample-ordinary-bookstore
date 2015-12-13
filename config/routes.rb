@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :books,                 only: [:update, :index, :create, :new, :show]
   resources :orders,                only: [:create, :show, :destroy]
   resources :reviews,               only: [:new, :create]
+  resources :review_ratings,        onlt: [:create]
   resources :order_items, only: [:create] do
     collection do
       post :add

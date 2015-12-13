@@ -116,12 +116,25 @@ module SqlHelper
     reviews = Review.find_by_sql("SELECT * from reviews WHERE book_id = '#{book_id}'")
   end
 
+  def insert_review_rating_db(params)
+    c = params[:customer_id]
+    c2 = params[:customer_id2]
+    b = params[:book_id]
+    r = params[:rating]
+    query = "INSERT INTO review_ratings
+            (customer_id, customer_id2, book_id, rating)
+            VALUES
+            ('#{c}','#{c2}','#{b}','#{r}')"
+    ReviewRating.connection.execute(query)
+  end
+
   def insert_review_db(review_params)
     c_id = review_params[:customer_id]
     b_id = review_params[:book_id]
     score = review_params[:score]
     comment = review_params[:comment]
-    query = "INSERT INTO reviews (customer_id, book_id, score, comment) VALUES ('#{c_id}','#{b_id}','#{score}','#{comment}')"
+    r_date = review_params[:review_date]
+    query = "INSERT INTO reviews (customer_id, book_id, score, comment, review_date) VALUES ('#{c_id}','#{b_id}','#{score}','#{comment}', '#{r_date}')"
     Review.connection.execute(query)
   end
 end
