@@ -138,11 +138,24 @@ module SqlHelper
     Review.connection.execute(query)
   end
 
-  def get_review_usefulness(customer2)
+  def get_review_usefulness(book, customer2)
     query = "SELECT AVG(rating) as usefulness FROM review_ratings
             WHERE
-            customer_id2 = '#{customer2}'"
+            book_id = '#{book}' AND customer_id2 = #{customer2}"
     average = ReviewRating.find_by_sql(query)[0]
+    score = average.usefulness
+    if score.present?
+      update_usefulness_review(customer2,score)
+    end
+    score
+  end
 
+  private
+  def update_usefulness_review(customer, score)
+    c = customer
+    query = "UPDATE reviews SET usefulness = '#{score}'
+             WHERE
+             customer_id= '#{c}'"
+    Review.connection.execute(query)
   end
 end
