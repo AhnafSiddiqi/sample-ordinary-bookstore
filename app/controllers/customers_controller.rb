@@ -15,7 +15,7 @@ class CustomersController < ApplicationController
     else
       flash.now[:warning] = 'Update unsuccessful, Try again'
     end
-    render :show
+    redirect_to customer_path
   end
 
   private
