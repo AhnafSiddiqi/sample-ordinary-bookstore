@@ -20,5 +20,5 @@
 end
 
 password = BCrypt::Password.create('123')
-u = User.create(id: 1, login_id: 'storemanager@bookz.com', password_digest: password)
+u = User.create(login_id: 'storemanager@bookz.com', password_digest: password)
 StoreManager.create(id: u.id, name: 'Bruce Wayne')
