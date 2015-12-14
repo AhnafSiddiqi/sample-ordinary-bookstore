@@ -80,6 +80,95 @@ module SqlHelper
     customer = Customer.find_by_sql("SELECT * FROM customers WHERE id = '#{id}'")[0]
   end
 
+  def retrieve_m_popular_books(m)
+    start_of_month = Date.today.beginning_of_month.to_s
+    query = "SELECT title, isbn13, sum
+             FROM 
+             (SELECT SUM(copies), book_id FROM 
+             (SELECT copies, book_id FROM 
+             orders 
+             INNER JOIN 
+             order_items 
+             ON 
+             orders.id = order_items.order_id 
+             WHERE order_date > '#{start_of_month}')
+             AS temp
+             GROUP BY
+             book_id
+             ORDER BY 
+             SUM(copies)
+             DESC)
+             AS notebook
+             INNER JOIN 
+             books
+             ON 
+             book_id = isbn13
+             LIMIT #{m}"
+    ActiveRecord::Base.connection.execute(query)
+  end
+
+
+  def retrieve_m_popular_authors(m)
+    start_of_month = Date.today.beginning_of_month.to_s
+    query = "SELECT title, authors, isbn13
+             FROM
+             (SELECT SUM(copies), book_id FROM 
+             (SELECT copies, book_id FROM 
+             orders 
+             INNER JOIN 
+             order_items 
+             ON 
+             orders.id = order_items.order_id 
+             WHERE order_date > '#{start_of_month}')
+             AS temp
+             GROUP BY
+             book_id
+             ORDER BY 
+             SUM(copies)
+             DESC)
+             AS auth
+             INNER JOIN 
+             books 
+             ON auth.book_id = books.isbn13
+             LIMIT #{m}"
+    ActiveRecord::Base.connection.execute(query)
+  end
+
+
+  def retrieve_m_popular_publishers(m)
+    start_of_month = Date.today.beginning_of_month.to_s
+    query = "SELECT SUM(sum), publisher
+             FROM
+             (SELECT title, publisher, sum
+             FROM
+             (SELECT SUM(copies), book_id FROM 
+             (SELECT copies, book_id FROM 
+             orders 
+             INNER JOIN 
+             order_items 
+             ON 
+             orders.id = order_items.order_id 
+             WHERE order_date > '#{start_of_month}')
+             AS temp
+             GROUP BY
+             book_id
+             ORDER BY 
+             SUM(copies)
+             DESC)
+             AS auth
+             INNER JOIN 
+             books 
+             ON auth.book_id = books.isbn13)
+             AS pub
+             GROUP BY 
+             pub.publisher
+             ORDER BY
+             SUM(sum)
+             DESC
+             LIMIT #{m}"
+    ActiveRecord::Base.connection.execute(query)
+  end
+
   def update_book(params)
     isbn13 = params[:isbn13]
     copies = params[:copies]
