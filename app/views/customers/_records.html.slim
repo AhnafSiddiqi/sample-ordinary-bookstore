@@ -26,4 +26,8 @@
     h5 = @customer.cc_no
 
 
-= render 'order_history', locals: { customer: @customer, order_history: @order_history }
+- if !(@order_history.nil?)
+  = render 'order_history'
+
+- if !(@current_user_reviews.nil?)
+  = render 'user_reviews'
