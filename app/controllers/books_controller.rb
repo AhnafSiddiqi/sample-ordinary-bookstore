@@ -36,6 +36,11 @@ class BooksController < ApplicationController
 
   def show
     @book = find_book_by(params[:id])
+    if (params[:n_useful_feedbacks].present?)
+      @n_useful_reviews = retrieve_n_reviews(params[:id], params[:n_useful_feedbacks][:value])
+      # byebug
+      render 'show'
+    end
   end
 
   private

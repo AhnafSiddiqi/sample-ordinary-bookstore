@@ -1,0 +1,33 @@
+.row 
+  .col-md-12
+
+    h2 Select N Useful Reviews
+
+
+    = form_for(:n_useful_feedbacks, url: url_for(controller: :books, method: :post, action: :show)) do |f|
+
+      = f.number_field :value, min: 1;
+
+      = f.submit "Submit", class: "btn btn-default"
+
+  - if !(@n_useful_reviews.nil?)
+
+    table.table
+
+      tr
+        th.text-center Book Name 
+        th.text-center Review Date
+        th.text-center Score
+        th.text-center Comment
+        th.text-center Usefulness
+
+      - @n_useful_reviews.each do |review|
+
+        tr
+          - book = find_book_by(@book.id)
+          td.text-center = book.title
+          td.text-center = review.review_date
+          td.text-center = review.score
+          td.text-center = review.comment
+          td.text-center = review.usefulness
+
