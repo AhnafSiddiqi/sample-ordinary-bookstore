@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   # signup routes
   get 'signup'  => 'users#new'
 
+  post 'books/:id' => 'books#show'
+
   resources :users,                 only: [:show, :destroy]
   resources :customers,             only: [:show, :update]
   resources :users, path: 'signup', only: [:create]
