@@ -31,3 +31,6 @@
 
 - if !(@current_user_reviews.nil?)
   = render 'user_reviews'
+
+- if retrieve_customer_purchases(@customer.id).present?
+  = render 'recommended_books'

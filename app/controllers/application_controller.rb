@@ -11,5 +11,4 @@ class ApplicationController < ActionController::Base
   include BooksHelper
   include ReviewRatingsHelper
   include CustomersHelper
-
 end
