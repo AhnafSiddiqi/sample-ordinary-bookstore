@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   post 'login' => 'sessions#create'
   get 'logout' => 'sessions#destroy'
 
-  # signup routes
   get 'signup'  => 'users#new'
-
+  get 'stats' => 'statistics#index'
+  post 'stats' => 'statistics#index'
   post 'books/:id' => 'books#show'
 
   resources :users,                 only: [:show, :destroy]
