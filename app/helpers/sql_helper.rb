@@ -148,6 +148,15 @@ module SqlHelper
     ActiveRecord::Base.connection.execute(query)
   end
 
+  def retrieve_current_user_reviews(customer_id)
+    query = "SELECT * FROM reviews WHERE customer_id = '#{customer_id}' ORDER BY review_date"
+    Review.find_by_sql(query)
+  end
+
+  def current_user_rated_reviews(customer_id)
+    query = ""
+  end
+
   def get_review_usefulness(book, customer2)
     query = "SELECT AVG(rating) as usefulness FROM review_ratings
             WHERE

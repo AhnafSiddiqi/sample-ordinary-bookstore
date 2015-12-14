@@ -3,6 +3,8 @@ class CustomersController < ApplicationController
   def show
     @customer = current_customer
     @order_history = retrieve_customer_order_history(@customer.id)
+    @current_user_reviews = retrieve_current_user_reviews(@customer.id)
+    # @rated_reviews = 
   end
 
   def update
