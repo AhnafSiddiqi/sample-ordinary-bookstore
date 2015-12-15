@@ -36,6 +36,9 @@ module OrderItemsHelper
             temp << copies
             book_list << temp
           end
+        end
+      end
+    end
     book_list
   end
 
