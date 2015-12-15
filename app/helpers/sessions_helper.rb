@@ -1,5 +1,4 @@
 module SessionsHelper
-
   def log_in(user)
     session[:login] = user.login_id
   end
@@ -9,7 +8,7 @@ module SessionsHelper
     @current_user ||= retrieve_user
   end
 
-  def logged_in? 
+  def logged_in?
     !current_user.nil?
   end
 
@@ -20,12 +19,9 @@ module SessionsHelper
   end
 
   def verify_user_password(user, params)
-    begin
-      user_password = user.password_digest
-      BCrypt::Password.new(user_password) == params[:session][:password]
-    rescue
-      return false
-    end
+    user_password = user.password_digest
+    BCrypt::Password.new(user_password) == params[:session][:password]
+  rescue
+    return false
   end
-
 end

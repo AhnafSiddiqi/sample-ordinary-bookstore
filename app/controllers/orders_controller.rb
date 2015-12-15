@@ -1,5 +1,4 @@
 class OrdersController < ApplicationController
-
   def show
     @order = Order.find_by_sql("SELECT * FROM orders WHERE id = '#{params[:id]}'")[0]
     @orders = populate_order_list
@@ -13,7 +12,7 @@ class OrdersController < ApplicationController
       redirect_to books_path
     else
       render 'books/index'
-    end      
+    end
   end
 
   def destroy
@@ -22,14 +21,14 @@ class OrdersController < ApplicationController
   end
 
   private
-    def orders_param
-      populate_order_params
-      params.permit(:customer_id, :order_date, :status)
-    end
 
-    def populate_order_params
-      params[:order_date] = Time.now.to_s
-      params[:status] = "pending"
-    end
+  def orders_param
+    populate_order_params
+    params.permit(:customer_id, :order_date, :status)
+  end
 
+  def populate_order_params
+    params[:order_date] = Time.now.to_s
+    params[:status] = 'pending'
+  end
 end

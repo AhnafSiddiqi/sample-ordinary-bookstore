@@ -5,26 +5,37 @@
   - if logged_in?
 
     .row#header 
+
       .col-md-3
 
         = render "shared/logout"
       
-      .col-md-3
-        = link_to "Add Book", new_book_path, class: "btn btn-success btn-lg "
-      
-      .col-md-5
+      - if user_type == 'manager'
+        .col-md-3
+          = link_to "Add Book", new_book_path, class: "btn btn-success btn-lg "
 
-        = render "orders/orderbutton"
+      - if user_type == 'customer'
+        .col-md-5
+
+          = render "orders/orderbutton"
+
+        .col-md-3
+          = link_to "update profile", customer_path(current_customer), method: :get, class: "btn btn-success btn-lg "
+
+    = render "search"
 
     - if @ordered_books.present?
-      
+
       = render "loggedin", :locals => { :books => @books, :ordered_books => @ordered_books }
     
     - else 
     
       = render "loggedin", :locals => { :books => @books }
 
+
   - else
+
+    = render "search"
 
     - @books.each do |book|
        
@@ -33,7 +44,6 @@
         .col-md-2.col-md-offset-1
 
           = image_tag("default_icon", height:"100px", width: "100px", class: "img-responsive")
-
         .col-md-4
         
           dl.dl-horizontal
@@ -63,5 +73,3 @@
 
             dt Format
             dd = book.format.titleize
-
-

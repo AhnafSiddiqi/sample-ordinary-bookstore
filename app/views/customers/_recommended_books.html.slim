@@ -1,0 +1,35 @@
+.row
+  .col-md-12
+
+    h2 Recommended Books
+
+.row
+  .col-md-12
+
+  table.table
+
+    tr
+      th.text-center ISBN
+      th.text-center Name
+      th.text-center Authors
+      th.text-center Format
+      th.text-center Publisher
+      th.text-center Year Of Publication
+      th.text-center Copies
+      th.text-center Keywords
+      th.text-center Subjects
+      th.text-center Price
+
+    - @recommended_books.each do |book|
+
+      tr
+        td.text-center = find_book_by(book["book_id"]).isbn13
+        td.text-center = find_book_by(book["book_id"]).title
+        td.text-center = find_book_by(book["book_id"]).authors
+        td.text-center = find_book_by(book["book_id"]).format
+        td.text-center = find_book_by(book["book_id"]).publisher
+        td.text-center = find_book_by(book["book_id"]).year_of_publication
+        td.text-center = find_book_by(book["book_id"]).copies
+        td.text-center = find_book_by(book["book_id"]).keywords
+        td.text-center = find_book_by(book["book_id"]).subject
+        td.text-center = find_book_by(book["book_id"]).price

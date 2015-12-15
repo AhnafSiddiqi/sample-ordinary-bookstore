@@ -1,0 +1,18 @@
+.container
+  .col-md-12.dl
+    =form_for @review do |f|
+
+
+      dt = f.label :score
+      dd = f.number_field :score, within: 1..10
+
+      dt = f.label :comment
+      dd = f.text_area :comment
+
+      = f.hidden_field :book_id, value: params[:book]
+
+      = f.hidden_field :review_date, value: Time.now.to_s
+      = f.submit
+
+    = link_to "Back", book_path(find_book_by(params[:book]))
+

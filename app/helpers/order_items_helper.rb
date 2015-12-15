@@ -1,6 +1,5 @@
 module OrderItemsHelper
-
-  def book_in_order? (isbn)
+  def book_in_order?(isbn)
     !(session[:items].nil?) ? (session[:items].include? isbn) : false
   end
 
@@ -10,7 +9,7 @@ module OrderItemsHelper
   end
 
   def remove_from_order(isbn)
-    if !(session[:items].nil?)
+    unless session[:items].nil?
       session[:items][isbn].nil? ? 0 : session[:items][isbn] -= 1
     end
   end
@@ -27,17 +26,16 @@ module OrderItemsHelper
 
   def populate_order_list
     book_list = []
-    if !(session[:items].nil?) 
-      if !(session[:items].keys.empty?)
+    unless session[:items].nil?
+      unless session[:items].keys.empty?
         session[:items].each do |isbn, copies|
-          book = find_book_by isbn
-          temp = []
-          temp << book
-          temp << copies
-          book_list << temp
-        end
-      end
-    end
+          if copies !=0 
+            book = find_book_by isbn
+            temp = []
+            temp << book
+            temp << copies
+            book_list << temp
+          end
     book_list
   end
 
