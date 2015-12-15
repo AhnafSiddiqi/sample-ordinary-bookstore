@@ -1,7 +1,24 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+20.times do |k|
+  if (k % 5) == 0 || (k % 3) == 0
+    format = 'hardcover'
+  else
+    format = 'softcover'
+  end
+
+  Book.create(
+    isbn13: Faker::Code.isbn(13),
+    title: Faker::Book.title,
+    format: format,
+    publisher: Faker::Book.publisher,
+    year_of_publication: Faker::Number.between(1900, 2015),
+    copies: Faker::Number.number(1),
+    keywords: "#{Faker::Lorem.word}, #{Faker::Lorem.word}",
+    subject: Faker::Book.genre,
+    price: Faker::Commerce.price,
+    authors: "#{Faker::Book.author}, #{Faker::Book.author}"
+  )
+end
+
+password = BCrypt::Password.create('123')
+u = User.create(login_id: 'storemanager@bookz.com', password_digest: password)
+StoreManager.create(id: u.id, name: 'Bruce Wayne')

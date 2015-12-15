@@ -1,0 +1,91 @@
+- @books.each do |book|
+       
+  .row.book-cell
+
+    .col-md-1
+      = link_to image_tag("default_icon", size: "", class: "img-responsive"), book_path(book)
+
+    .col-md-4
+    
+      dl.dl-horizontal
+        dt Title
+        dd = book.title
+
+        dt Subject
+        dd = book.subject
+
+        dt Authors
+        dd = book.authors
+
+        dt ISBN
+        dd = book.isbn13
+
+    .col-md-3
+    
+      dl.dl-horizontal
+        dt Publisher
+        dd = book.publisher
+
+        dt Published In
+        dd = book.year_of_publication
+
+        dt Price 
+        dd = book.price
+
+        dt Format
+        dd = book.format.titleize
+
+    .col-md-1.number-ordered id="#{book.isbn13}-avail"
+      h4 # Books
+      - if @ordered_books.present?
+        h3 = available_copies(@ordered_books, "#{book.isbn13}")
+      - else 
+        h3 = book.copies
+
+    .col-md-1.number-ordered id="#{book.isbn13}"
+      h4 # Ordered
+      - if @ordered_books.present?
+        h3 = ordered_copies(@ordered_books, "#{book.isbn13}")
+      - else 
+        h3 0
+
+    - if pending_order? 
+
+      .col-md-1.order-buttons
+
+        = form_for(:items, url: add_order_items_path, html: { id: "add-#{book.isbn13}" }, remote: true) do |f|
+
+          = hidden_field_tag :book, book.isbn13
+          
+          .row 
+            .col-md-12
+        
+              = f.button :submit, class: "btn btn-info raised", id: "#{book.isbn13}-add" do |block|
+                i.glyphicon.glyphicon-plus
+              end
+
+        = form_for(:items, url: rmv_order_items_path, html: { id: "rmv-#{book.isbn13}" }, remote: true) do |f|
+
+          = hidden_field_tag :book, book.isbn13
+
+          .row 
+            .col-md-12
+              = f.button :submit, class: "btn btn-info raised", id: "#{book.isbn13}-rmv" do |block|
+                i.glyphicon.glyphicon-minus
+              end
+
+      .col-md-1
+
+        button.pull-right Rating?
+        button.pull-right Helpfulness?
+
+    - else 
+
+      .col-md-1.col-md-offset-1
+
+        button.pull-right Rating?
+        button.pull-right Helpfulness?
+
+
+        - if user_type == 'manager'
+            button.pull-right update copies

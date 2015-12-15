@@ -1,0 +1,30 @@
+.row 
+  .col-md-12
+
+    h2 Order Summary
+
+.row 
+  .col-md-12
+
+  table.table
+
+    tr
+      th.text-center Order ID
+      th.text-center Date Ordered
+      th.text-center Status
+      th.text-center Book Name
+      th.text-center # Copies
+
+    - @order_history.each do |order|
+
+      tr 
+        - book = find_book_by(order['book_id'])
+        td.text-center = order['id']
+        td.text-center = order['order_date']
+        td.text-center = order['status'].titleize
+        td.text-center = !(book.nil?) ? book.title : "X"
+        td.text-center = !(book.nil?) ? order['copies'] : "X"
+
+
+
+

@@ -1,0 +1,86 @@
+.container
+
+  .row 
+
+    .col-md-12
+
+      h2 View M Popular books for the month
+
+
+      = form_for(:m_books, url: url_for(controller: :statistics, method: :post, action: :index)) do |f|
+
+        = f.number_field :value, min: 1;
+
+        = f.submit "Submit", class: "btn btn-default"
+
+  - if !(@popular_books.nil?)
+
+    .row 
+      .col-md-12
+      
+        h2 Popular Books
+
+    .row 
+      .col-md-12
+
+        table.table
+
+          tr
+            th.text-center Book Name 
+            th.text-center ISBN
+            th.text-center Copies Sold
+
+
+          - @popular_books.each do |book|
+
+            tr
+              td.text-center = book['title']
+              td.text-center = book['isbn13']
+              td.text-center = book['sum']
+
+
+  - if !(@popular_authors.nil?)
+    .row 
+      .col-md-12
+      
+        h2 Popular Authors
+
+    .row 
+      .col-md-12
+
+        table.table
+
+          tr
+            th.text-center Authors
+            th.text-center Book Name 
+            th.text-center ISBN
+
+
+          - @popular_authors.each do |book|
+
+            tr
+              td.text-center = book['authors']
+              td.text-center = book['title']
+              td.text-center = book['isbn13']
+
+  - if !(@popular_publishers.nil?)
+
+    .row 
+      .col-md-12
+      
+        h2 Popular Books
+
+    .row 
+      .col-md-12
+
+        table.table
+
+          tr
+            th.text-center Publisher 
+            th.text-center Total Copies 
+
+          - @popular_publishers.each do |pub|
+
+            tr
+              td.text-center = pub['publisher']
+              td.text-center = pub['sum']

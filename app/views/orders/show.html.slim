@@ -1,0 +1,91 @@
+- provide(:title, 'Order')
+
+.container#order-items
+  
+  .row 
+    .col-md-6
+
+      = link_to "<<< Back to Books", books_path, class: "btn btn-primary"
+
+    .col-md-2.col-md-offset-4#order-id
+
+      h4 Order #
+      h4 = @order.id
+
+  .row#header 
+    .col-md-1
+
+      h5 #
+
+    .col-md-4
+
+      h5 Title 
+
+    .col-md-4
+
+      h5 Authors
+
+    .col-md-1
+
+      h5.text-center Copies
+
+    .col-md-1
+
+      h5.text-center Format
+
+    .col-md-1
+
+      h5.text-center Unit Price
+
+  - if !(@orders.empty?) 
+
+    - @orders.each do |order|
+
+      .row 
+
+        .col-md-1
+
+          h5 = @orders.index(order)
+
+        .col-md-4
+
+          h5 = order[0].title 
+
+        .col-md-4
+
+          h5 = order[0].authors
+
+        .col-md-1
+
+          h5.text-center = order[1]
+
+        .col-md-1
+
+          h5.text-center = order[0].format.titleize
+
+        .col-md-1
+
+          h5.text-center = order[0].price
+
+  .row#confirm
+
+    .col-md-3.col-md-offset-3
+
+      = form_for(:items, url: order_items_path) do |f|
+
+        - if !(@orders.empty?) 
+
+          - @orders.each do |order|
+        
+            = hidden_field_tag 'items[isbn13][]', order[0].isbn13
+            = hidden_field_tag 'items[copies][]', order[1]
+
+          = hidden_field_tag :order_id, "#{@order.id}"
+          = f.submit "Submit Order", class: "btn btn-success btn-lg"
+
+    .col-md-3
+
+      = form_for(@order, method: :delete) do |f|
+
+        = hidden_field_tag :order_id, @order.id
+        = f.submit "Cancel Order", data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-lg"

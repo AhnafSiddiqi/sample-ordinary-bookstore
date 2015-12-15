@@ -1,0 +1,35 @@
+$('form').unbind();
+
+$('form').on('ajax:success', function(event, data, status, xhr) {
+  var $this = $(this);
+  var form_id = $(this).closest("form").attr('id');
+  var check = form_id.split("-")[0];
+
+  var isbn = '';
+  isbn = $("#"+form_id).serializeArray()[1]['value']
+
+  var curr_max = Number($("#" + isbn + "-avail h3").html());
+  var count = Number($("#" + isbn + " h3").html());
+  var max = curr_max + count;
+
+  if (check == "add") {
+    var condition = ((count+1) <= max);
+
+    if (condition) {
+      console.log("success");
+      count++;
+      $("#" + isbn + " h3").html(count);
+      $("#" + isbn + "-avail h3").html(max-count);  
+    }
+
+  } else {
+    var condition = (count > 0);
+
+    if (condition){
+      console.log("success-2");
+      count--;
+      $("#" + isbn + " h3").html(count);
+      $("#" + isbn + "-avail h3").html(max-count);  
+    }
+  }
+});

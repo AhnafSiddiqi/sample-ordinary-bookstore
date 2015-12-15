@@ -1,7 +1,5 @@
 class StoreManager < ActiveRecord::Base
+  belongs_to :user, primary_key: 'id', foreign_key: 'id'
 
-  belongs_to :user
-
-  validates :login_id,  presence: true
-
+  validates :id, presence: true
 end
