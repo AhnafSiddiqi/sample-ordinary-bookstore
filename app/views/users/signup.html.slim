@@ -1,0 +1,22 @@
+- provide(:title, 'Register')
+
+h1.text-center Sign up
+
+.row
+  .col-md-4.col-md-offset-4
+    = render 'shared/error_messages'
+    
+    = form_for(@user) do |f|
+
+      = f.label :email
+      = f.email_field :login_id, class: 'form-control'
+
+      = f.label :password
+      = f.password_field :password_digest, class: 'form-control'
+
+      = f.label :password_confirmation, "Confirmation"
+      = f.password_field :password_confirmation, class: 'form-control'
+
+      = f.submit "Create my account", class: "btn btn-success", id: "button"
+
+      = link_to "back to login", login_path, class: "btn btn-primary pull-right", id: "button"

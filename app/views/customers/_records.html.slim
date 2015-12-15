@@ -1,0 +1,36 @@
+.row 
+  .col-md-12
+
+    h2 Profile Summary 
+
+.row 
+  
+  .col-md-3
+
+    label Name 
+    h5 = @customer.name
+  
+  .col-md-3
+
+    label Mobile 
+    h5 = @customer.mobile
+
+  .col-md-3
+
+    label Address
+    h5 = @customer.address
+
+  .col-md-3
+
+    label Credit Card Number
+    h5 = @customer.cc_no
+
+
+- if !(@order_history.nil?)
+  = render 'order_history'
+
+- if !(@current_user_reviews.nil?)
+  = render 'user_reviews'
+
+- if retrieve_customer_purchases(@customer.id).present?
+  = render 'recommended_books'

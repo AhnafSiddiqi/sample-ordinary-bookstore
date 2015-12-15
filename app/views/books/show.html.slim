@@ -1,0 +1,110 @@
+.container
+  
+  .row 
+    .col-md-12
+    
+      h1 Book Information
+
+  .row 
+    .col-md-4
+
+      dl.dl-horizontal
+        dt Title
+        dd = @book.title
+
+        dt Subject
+        dd = @book.subject
+
+        dt Authors
+        dd = @book.authors
+
+        dt ISBN
+        dd = @book.isbn13
+
+    .col-md-4
+
+      dl.dl-horizontal
+        dt Publisher
+        dd = @book.publisher
+
+        dt Published In
+        dd = @book.year_of_publication
+
+        dt Price
+        dd = @book.price
+
+        dt Format
+        dd = @book.format.titleize
+
+        dt Copies
+        -if user_type == 'manager'
+          = form_for @book do |b|
+            dd = b.number_field :copies
+            = b.submit "Update Copies"
+        -else
+          dd = @book.copies
+
+    .col-md-4
+      =link_to 'book index', books_path
+
+  .row 
+    .col-md-12
+      hr
+
+  .row
+
+    .col-md-4
+
+      h1 Feedback
+
+    .col-md-4
+
+      - if user_type=='customer' && customer_book_review(current_customer.id, @book.id).nil?
+        =link_to "Add a review", new_review_path(book: @book)
+   
+    .col-md-4
+
+
+  .row
+
+    .col-md-12
+
+      - get_book_reviews(@book.id).each do |f|
+
+        dl
+          .row
+
+            .col-md-4
+
+              dt User
+              dd = find_customer_by(f.customer_id).name
+
+              dt Score
+              dd = f.score
+
+            .col-md-4
+
+              dt Comment
+              dd = f.comment
+
+              dt Date commented
+              dd = f.review_date
+
+            .col-md-4
+
+              dt Usefulness
+              dd = get_review_usefulness(@book.id, f.customer_id)
+
+              -if current_customer != find_customer_by(f.customer_id)
+                - if ReviewRating.find_by(customer_id: current_customer_id, book_id: @book.id, customer_id2: f.customer_id).nil?
+                  dt Rate
+                  =form_for(ReviewRating.new, url: review_ratings_path, method: :post, action: :create) do |r|
+                    = r.hidden_field :customer_id, value: current_customer.id
+                    = r.hidden_field :customer_id2, value: f.customer_id
+                    = r.hidden_field :book_id, value: @book.id
+                    = r.number_field :rating, within: 0..2
+                    = r.submit
+          hr
+
+
+  = render "useful_feedbacks"
