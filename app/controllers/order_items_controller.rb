@@ -1,9 +1,15 @@
 class OrderItemsController < ApplicationController
+  
   def create
     params[:items][:isbn13].each do |book|
       book_index = params[:items][:isbn13].index(book)
       items = OrderItem.new(order_items_params(book_index))
-      insert_order_items_db(params) if items.valid?
+      if items.valid?
+        if (params[:copies] != 0)
+          insert_order_items_db(params)
+          update_book_copies(params)
+        end
+      end
     end
     update_order_status(params[:order_id], 'processed')
     redirect_to books_path
@@ -34,4 +40,5 @@ class OrderItemsController < ApplicationController
     params[:copies] = params[:items][:copies][index]
     params[:book_id] = params[:items][:isbn13][index]
   end
+  
 end

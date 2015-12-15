@@ -29,14 +29,14 @@ module OrderItemsHelper
     unless session[:items].nil?
       unless session[:items].keys.empty?
         session[:items].each do |isbn, copies|
-          book = find_book_by isbn
-          temp = []
-          temp << book
-          temp << copies
-          book_list << temp
-        end
-      end
-    end
+          if copies !=0 
+            book = find_book_by isbn
+            temp = []
+            temp << book
+            temp << copies
+            book_list << temp
+          end
     book_list
   end
+
 end

@@ -1,0 +1,69 @@
+.well.row#search
+  .col-md-6
+
+    h2 Search Books
+
+  .col-md-2
+    h2 And / Or
+
+  = form_for(:search, url: books_path, method: :get) do |f|
+    .row
+      .col-md-6
+
+        .row
+          .col-md-12 
+
+            = f.text_field :title, placeholder: "Title", class: "form-control"
+        .row
+          .col-md-12 
+      
+            = f.text_field :authors, placeholder: "Authors", class: "form-control"
+        
+        .row
+          .col-md-12 
+        
+            = f.text_field :publisher, placeholder: "Publisher", class: "form-control"
+        
+        .row
+          .col-md-12 
+
+            = f.text_field :subject, placeholder: "Subject", class: "form-control"
+
+      .col-md-2
+          
+        .row
+          .col-md-12 
+
+            = f.select :conj_one, ['OR', 'AND'], { include_blank: true }, { class: "form-control" }
+        
+        .row
+          .col-md-12 
+
+            = f.select :conj_two, ['OR', 'AND'], { include_blank: true }, { class: "form-control" }
+        
+        .row
+          .col-md-12 
+
+            = f.select :conj_three, ['OR', 'AND'], { include_blank: true }, { class: "form-control" }
+        
+        .row
+          .col-md-12 
+
+            = f.select :sorted, ['Year', 'Avg. Feedbacks'], { prompt: "Sort By..." },  { required: true , class: "form-control" }
+        
+      .col-md-2
+
+        .row 
+          .col-md-12
+   
+            = f.button :submit, class: "btn btn-primary raised", style: "width: 100%; height: 162px;" do |block|
+              i.glyphicon.glyphicon-search
+            end
+
+      .col-md-2
+
+        .row 
+          .col-md-12
+
+            = link_to "Reset", books_path, class: "btn btn-info raised", style: "width: 100%; height: 162px; padding-top: 68px"
+

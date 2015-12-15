@@ -5,6 +5,7 @@
   - if logged_in?
 
     .row#header 
+
       .col-md-3
 
         = render "shared/logout"
@@ -21,6 +22,8 @@
         .col-md-3
           = link_to "update profile", customer_path(current_customer), method: :get, class: "btn btn-success btn-lg "
 
+    = render "search"
+
     - if @ordered_books.present?
 
       = render "loggedin", :locals => { :books => @books, :ordered_books => @ordered_books }
@@ -29,7 +32,10 @@
     
       = render "loggedin", :locals => { :books => @books }
 
+
   - else
+
+    = render "search"
 
     - @books.each do |book|
        

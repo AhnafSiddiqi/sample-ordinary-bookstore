@@ -44,7 +44,7 @@
     box-shadow: 0 3px 0 0 #007299;
   }
   
-  .btn-info.raised:active, .btn-primary.raised.active {
+  .btn-info.raised:active, .btn-info.raised.active {
     background: #33a6cc;
     box-shadow: none;
   }
@@ -54,5 +54,39 @@
   #header {
     margin-top: 10px;
     margin-bottom: 20px;
+  }
+}
+
+#search {
+
+  margin-top: 50px;
+  margin-bottom: 60px;
+
+  .row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  #conj {
+    margin-top: 2px;
+    margin-bottom: 16px;
+  }
+
+  .btn-primary.raised {
+    box-shadow: 0 3px 0 0 #007299;
+  }
+  
+  .btn-primary.raised:active, .btn-primary.raised.active {
+    background: #33a6cc;
+    box-shadow: none;
+  }
+
+  .btn-info.raised {
+    box-shadow: 0 3px 0 0 #007299;
+  }
+  
+  .btn-info.raised:active, .btn-info.raised.active {
+    background: #33a6cc;
+    box-shadow: none;
   }
 }
