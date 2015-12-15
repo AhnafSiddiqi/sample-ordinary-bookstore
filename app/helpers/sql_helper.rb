@@ -241,11 +241,21 @@ module SqlHelper
   end
 
   def retrieve_customer_order_history(customer_id)
-    query = "SELECT * FROM 
-             (SELECT * FROM orders WHERE customer_id = '#{customer_id}') 
-             AS ORDERS 
-             LEFT OUTER JOIN 
-             order_items 
+    query = "SELECT * FROM
+             (SELECT * FROM orders WHERE customer_id = '#{customer_id}')
+             AS ORDERS
+             LEFT OUTER JOIN
+             order_items
+             ON ORDERS.id = order_items.order_id"
+    ActiveRecord::Base.connection.execute(query)
+  end
+
+  def retrieve_customer_purchases(customer_id)
+    query = "SELECT * FROM
+             (SELECT * FROM orders WHERE customer_id = '#{customer_id}')
+             AS ORDERS
+             INNER JOIN
+             order_items
              ON ORDERS.id = order_items.order_id"
     ActiveRecord::Base.connection.execute(query)
   end
@@ -255,31 +265,41 @@ module SqlHelper
     Review.find_by_sql(query)
   end
 
-  def current_user_rated_reviews(customer_id)
-    query = ""
-  end
-
   def get_review_usefulness(book, customer2)
     query = "SELECT AVG(rating) as usefulness FROM review_ratings
             WHERE
             book_id = '#{book}' AND customer_id2 = #{customer2}"
     average = ReviewRating.find_by_sql(query)[0]
     score = average.usefulness
-    if score.present?
-      update_usefulness_review(customer2,score)
-    end
+    update_usefulness_review(customer2, score) if score.present?
     score
   end
 
-  private
-  
-    def update_usefulness_review(customer, score)
-      c = customer
-      query = "UPDATE reviews SET usefulness = '#{score}'
-               WHERE
-               customer_id= '#{c}'"
-      Review.connection.execute(query)
-    end
+  def get_recommended_books(customer_id)
+    query = "SELECT book_id FROM
+            (SELECT book_id, copies from
+            orders INNER JOIN order_items
+            ON
+            orders.id = order_items.order_id
+            WHERE
+            customer_id
+            IN
+            (SELECT customer_id from
+            (SELECT * from orders INNER JOIN order_items ON orders.id = order_items.order_id) AS joint_table
+            where book_id IN
+            (SELECT book_id from orders INNER JOIN order_items ON orders.id = order_items.order_id where customer_id = '#{customer_id}'))
+            EXCEPT
+            (SELECT book_id, copies from orders INNER JOIN order_items ON orders.id = order_items.order_id where customer_id = '#{customer_id}')
+            )
+            AS temp
+            GROUP BY
+            book_id
+            ORDER BY
+            SUM(copies)
+            DESC"
+    ActiveRecord::Base.connection.execute(query)
+  end
+
   def find_all_books
     Book.find_by_sql("SELECT * FROM books")
   end
@@ -350,4 +370,13 @@ module SqlHelper
     end
   end
 
+  private
+  
+    def update_usefulness_review(customer, score)
+      c = customer
+      query = "UPDATE reviews SET usefulness = '#{score}'
+               WHERE
+               customer_id= '#{c}'"
+      Review.connection.execute(query)
+    end
 end
