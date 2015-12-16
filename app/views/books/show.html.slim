@@ -98,7 +98,7 @@
               dt Usefulness
               dd = get_review_usefulness(@book.id, f.customer_id)
 
-              -if current_customer != find_customer_by(f.customer_id)
+              -if current_customer != find_customer_by(f.customer_id) && user_type == 'customer'
                 - if ReviewRating.find_by(customer_id: current_customer_id, book_id: @book.id, customer_id2: f.customer_id).nil?
                   dt Rate
                   =form_for(ReviewRating.new, url: review_ratings_path, method: :post, action: :create) do |r|

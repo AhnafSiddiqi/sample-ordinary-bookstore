@@ -42,7 +42,7 @@ class BooksController < ApplicationController
     else
       flash[:warning] = 'update failed'
     end
-    render :show
+    redirect_to book_path(@book)
   end
 
   def show
