@@ -14,5 +14,7 @@ module OrdersHelper
 
   def cancel_order(id)
     update_order_status(id, 'cancelled')
+    session.delete(:items)
   end
+
 end
