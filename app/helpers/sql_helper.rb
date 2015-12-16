@@ -64,7 +64,7 @@ module SqlHelper
     ordered_copies = params[:copies]
     book_id = params[:book_id]
     current_copies = book_copies_in_store(book_id)
-    updated_copies = ordered_copies.to_i - current_copies.to_i
+    updated_copies = current_copies.to_i - ordered_copies.to_i
     query = "UPDATE books SET copies = '#{updated_copies}' WHERE isbn13 = '#{book_id}'"
     Book.connection.execute(query)
   end

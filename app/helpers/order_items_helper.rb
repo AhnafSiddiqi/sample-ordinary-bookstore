@@ -1,16 +1,20 @@
 module OrderItemsHelper
+
   def book_in_order?(isbn)
     !(session[:items].nil?) ? (session[:items].include? isbn) : false
   end
 
   def store_for_order(isbn)
     session[:items].nil? ? session[:items] = {} : 0
-    session[:items][isbn].nil? ? session[:items][isbn] = 1 : session[:items][isbn] += 1
+    max_copies = book_copies_in_store(isbn)
+    session[:items][isbn] = 0 if session[:items][isbn].nil?
+    session[:items][isbn] += 1 if available_copies(session[:items],isbn) > 0
   end
 
   def remove_from_order(isbn)
     unless session[:items].nil?
-      session[:items][isbn].nil? ? 0 : session[:items][isbn] -= 1
+      session[:items][isbn].nil? ? 0 : temp_val = session[:items][isbn]
+      temp_val > 0 ? session[:items][isbn] -= 1 : 0
     end
   end
 
