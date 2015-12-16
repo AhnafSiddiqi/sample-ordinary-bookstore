@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+
   def index
     temp_books = nil
     params[:search].present? ? temp_books = book_search(params[:search]) : @books = find_all_books
@@ -48,7 +49,6 @@ class BooksController < ApplicationController
     @book = find_book_by(params[:id])
     if params[:n_useful_feedbacks].present?
       @n_useful_reviews = retrieve_n_reviews(params[:id], params[:n_useful_feedbacks][:value])
-      # byebug
       render 'show'
     end
   end
@@ -58,4 +58,5 @@ class BooksController < ApplicationController
   def book_params
     params.require(:book).permit(:id, :isbn13, :title, :format, :publisher, :year_of_publication, :copies, :subject, :keywords, :price, :authors)
   end
+  
 end
