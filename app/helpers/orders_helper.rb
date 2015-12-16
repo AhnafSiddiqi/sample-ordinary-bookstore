@@ -1,4 +1,5 @@
 module OrdersHelper
+
   def pending_order?
     user = current_user
     order_status = find_pending_order user

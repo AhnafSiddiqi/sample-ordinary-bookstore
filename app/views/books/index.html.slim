@@ -11,15 +11,19 @@
         = render "shared/logout"
       
       - if user_type == 'manager'
+
         .col-md-3
+
           = link_to "Add Book", new_book_path, class: "btn btn-success btn-lg "
 
       - if user_type == 'customer'
+
         .col-md-5
 
           = render "orders/orderbutton"
 
         .col-md-3
+        
           = link_to "update profile", customer_path(current_customer), method: :get, class: "btn btn-success btn-lg "
 
     = render "search"
