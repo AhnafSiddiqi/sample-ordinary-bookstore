@@ -1,4 +1,4 @@
-20.times do |k|
+40.times do |k|
   if (k % 5) == 0 || (k % 3) == 0
     format = 'hardcover'
   else
@@ -11,7 +11,7 @@
     format: format,
     publisher: Faker::Book.publisher,
     year_of_publication: Faker::Number.between(1900, 2015),
-    copies: Faker::Number.number(1),
+    copies: Faker::Number.between(1, 20),
     keywords: "#{Faker::Lorem.word}, #{Faker::Lorem.word}",
     subject: Faker::Book.genre,
     price: Faker::Commerce.price,

@@ -73,5 +73,5 @@ create table review_ratings(
   primary key(customer_id,customer_id2,book_id),
   foreign key(customer_id) references customers(id),
   foreign key(customer_id2, book_id) references reviews(customer_id, book_id),
-  check (rating>-1 and rating <4)
+  check (rating>-1 and rating <3)
 );

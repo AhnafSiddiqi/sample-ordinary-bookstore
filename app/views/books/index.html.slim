@@ -11,16 +11,24 @@
         = render "shared/logout"
       
       - if user_type == 'manager'
-        .col-md-3
-          = link_to "Add Book", new_book_path, class: "btn btn-success btn-lg "
+
+        .col-md-7
+
+          = link_to "Add Book", new_book_path, class: "btn btn-success btn-lg pull-right"
+
+        .col-md-2
+
+          = link_to "Statistics", stats_path, class: "btn btn-success btn-lg pull-right"
 
       - if user_type == 'customer'
-        .col-md-5
+
+        .col-md-7
 
           = render "orders/orderbutton"
 
-        .col-md-3
-          = link_to "update profile", customer_path(current_customer), method: :get, class: "btn btn-success btn-lg "
+        .col-md-2
+        
+          = link_to "Profile", customer_path(current_customer), method: :get, class: "btn btn-success btn-lg pull-right"
 
     = render "search"
 
@@ -37,39 +45,4 @@
 
     = render "search"
 
-    - @books.each do |book|
-       
-      .row.book-cell
-
-        .col-md-2.col-md-offset-1
-
-          = image_tag("default_icon", height:"100px", width: "100px", class: "img-responsive")
-        .col-md-4
-        
-          dl.dl-horizontal
-            dt Title
-            dd = book.title
-
-            dt Subject
-            dd = book.subject
-
-            dt Authors
-            dd = book.authors
-
-            dt ISBN
-            dd = book.isbn13
-
-        .col-md-4
-        
-          dl.dl-horizontal
-            dt Publisher
-            dd = book.publisher
-
-            dt Published In
-            dd = book.year_of_publication
-
-            dt Price 
-            dd = book.price
-
-            dt Format
-            dd = book.format.titleize
+    = render "visitor_preview"

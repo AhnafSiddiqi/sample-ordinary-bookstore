@@ -3,6 +3,7 @@ class CustomersController < ApplicationController
     @customer = current_customer
     @order_history = retrieve_customer_order_history(@customer.id)
     @current_user_reviews = retrieve_current_user_reviews(@customer.id)
+    @current_user_ranked_reviews = retrieve_user_ranked_reviews(@customer.id)
     @recommended_books = get_recommended_books(@customer.id)
   end
 

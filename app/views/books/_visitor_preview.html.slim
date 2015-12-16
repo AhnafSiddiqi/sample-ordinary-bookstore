@@ -1,0 +1,85 @@
+- @books.each do |book|
+  
+  - if book.class == Hash
+
+    .row.book-cell
+
+      .col-md-2.col-md-offset-1 style="left: -50px;"
+
+        = image_tag("default_icon", height:"100px", width: "100px", class: "img-responsive")
+
+      .col-md-4 style="left: -80px;"
+      
+        dl.dl-horizontal
+          dt Title
+          dd = book['title']
+
+          dt Subject
+          dd = book['subject']
+
+          dt Authors
+          dd = book['authors']
+
+          dt ISBN
+          dd = book['isbn13']
+
+      .col-md-4 style="padding-right: 0px; left: -50px"
+      
+        dl.dl-horizontal
+          dt Publisher
+          dd = book['publisher']
+
+          dt Published In
+          dd = book['year_of_publication']
+
+          dt Price 
+          dd = book['price']
+
+          dt Format
+          dd = book['format'].titleize
+
+
+      .col-md-1 style="padding-left: 0px; left: -50px"
+          label.text-center Average Feedback
+          - if book['avg'].present?
+            h5.text-center = number_with_precision(book['avg'], precision: 2)
+          - else 
+            h5.text-center X
+           
+  - else 
+
+    .row.book-cell
+
+      .col-md-2.col-md-offset-1
+
+        = image_tag("default_icon", height:"100px", width: "100px", class: "img-responsive")
+
+      .col-md-4
+      
+        dl.dl-horizontal
+          dt Title
+          dd = book.title
+
+          dt Subject
+          dd = book.subject
+
+          dt Authors
+          dd = book.authors
+
+          dt ISBN
+          dd = book.isbn13
+
+      .col-md-4
+      
+        dl.dl-horizontal
+          dt Publisher
+          dd = book.publisher
+
+          dt Published In
+          dd = book.year_of_publication
+
+          dt Price 
+          dd = book.price
+
+          dt Format
+          dd = book.format.titleize

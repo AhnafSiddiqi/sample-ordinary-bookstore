@@ -1,7 +1,7 @@
 .row 
   .col-md-12
 
-    h2 My Reviews
+    h2 Rated Reviews
 
 .row 
   .col-md-12
@@ -13,17 +13,15 @@
       th.text-center Date Reviewed
       th.text-center Score
       th.text-center Comments
-      th.text-center Usefulness(By Other Users)
 
-    - @current_user_reviews.each do |review|
+    - @current_user_ranked_reviews.each do |review|
 
       tr 
-        - book = find_book_by(review.book_id)
+        - book = find_book_by(review['book_id'])
         td.text-center = book.title
-        td.text-center = review.review_date
-        td.text-center = review.score
-        td.text-center = !(review.comment.empty?) ? review.comment : "X"
-        td.text-center = !(review.usefulness.nil?) ? review.usefulness : "X"
+        td.text-center = review['review_date']
+        td.text-center = review['rating']
+        td.text-center = !(review['comment'].empty?) ? review.comment : "X"
 
 
 
