@@ -21,7 +21,7 @@
         td.text-center = book.title
         td.text-center = review['review_date']
         td.text-center = review['rating']
-        td.text-center = !(review['comment'].empty?) ? review.comment : "X"
+        td.text-center = !(review['comment'].empty?) ? review['comment'] : "X"
 
 
 
