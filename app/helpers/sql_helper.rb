@@ -1,5 +1,5 @@
 module SqlHelper
-  # Inserts
+
   def insert_user_db(params)
     login_id = params[:user][:login_id]
     password = params[:user][:password_digest]
@@ -53,7 +53,6 @@ module SqlHelper
     Book.connection.execute(query)
   end
 
-  # Updates
   def update_order_status(order_id, status)
     query = "UPDATE orders SET status = '#{status}' WHERE id = '#{order_id}'"
     Order.connection.execute(query)
@@ -69,7 +68,6 @@ module SqlHelper
     Book.connection.execute(query)
   end
 
-  # Find
   def find_pending_order(user)
     user_id = user.id
     order_id = Order.find_by_sql("SELECT id FROM orders WHERE status = 'pending' AND customer_id = '#{user_id}'")
@@ -215,7 +213,11 @@ module SqlHelper
   end
 
   def retrieve_n_reviews(book_id, n)
-    Review.find_by_sql("SELECT * from reviews WHERE book_id = '#{book_id}' ORDER BY usefulness DESC LIMIT #{n}")
+    begin
+      Review.find_by_sql("SELECT * from reviews WHERE book_id = '#{book_id}' ORDER BY usefulness DESC LIMIT #{n}")
+    rescue
+      false
+    end
   end
 
   def insert_review_rating_db(params)
@@ -265,6 +267,17 @@ module SqlHelper
     Review.find_by_sql(query)
   end
 
+  def retrieve_user_ranked_reviews(customer_id)
+    query = "SELECT * FROM 
+             (SELECT * FROM review_ratings WHERE customer_id = '#{customer_id}') AS feedbacks
+             INNER JOIN 
+             reviews 
+             ON feedbacks.customer_id2 = reviews.customer_id AND feedbacks.book_id = reviews.book_id
+             ORDER BY review_date DESC
+             "
+    ActiveRecord::Base.connection.execute(query)
+  end
+
   def get_review_usefulness(book, customer2)
     query = "SELECT AVG(rating) as usefulness FROM review_ratings
             WHERE
@@ -308,8 +321,13 @@ module SqlHelper
     if sort == "year_of_publication"
       Book.find_by_sql("SELECT * FROM books ORDER BY #{sort} DESC")
     else 
-      # Not done yet
-      Book.find_by_sql("SELECT * FROM books ORDER BY #{sort} DESC")
+      query = "SELECT * FROM 
+         books
+         LEFT OUTER JOIN 
+         (SELECT book_id, AVG(score) FROM reviews GROUP BY book_id) AS sortback
+         ON books.isbn13 = sortback.book_id
+         ORDER BY avg"
+      ActiveRecord::Base.connection.execute(query)
     end
   end
 
@@ -319,24 +337,38 @@ module SqlHelper
   end
 
   def find_by_one_column(column, value, sort)
-    if sort == "year_of_publication"
-      collection = Book.find_by_sql("SELECT * FROM books WHERE #{column} LIKE '%#{value}%' ORDER BY #{sort} DESC")
-    else 
-      # Not done yet
-      collection = Book.find_by_sql("SELECT * FROM books WHERE #{column} LIKE '%#{value}%' ORDER BY #{sort} DESC")
+    begin
+      if sort == "year_of_publication"
+        Book.find_by_sql("SELECT * FROM books WHERE #{column} LIKE '%#{value}%' ORDER BY #{sort} DESC")
+      else 
+        query = "SELECT * FROM 
+                 books
+                 LEFT OUTER JOIN 
+                 (SELECT book_id, AVG(score) FROM reviews GROUP BY book_id) AS sortback
+                 ON books.isbn13 = sortback.book_id
+                 WHERE #{column} LIKE '%#{value}%'
+                 ORDER BY avg"
+        ActiveRecord::Base.connection.execute(query)
+      end
+    rescue
+      false
     end
-    collection
   end
 
   def find_by_two_column(columns, values, operator ,sort)
     begin
       if sort == "year_of_publication"
-        collection = Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%'  ORDER BY #{sort} DESC")
+        Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%'  ORDER BY #{sort} DESC")
       else 
-        # Not done yet
-        collection = Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%'  ORDER BY #{sort} DESC")
+        query = "SELECT * FROM 
+                 books
+                 LEFT OUTER JOIN 
+                 (SELECT book_id, AVG(score) FROM reviews GROUP BY book_id) AS sortback
+                 ON books.isbn13 = sortback.book_id
+                 WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%'
+                 ORDER BY avg"
+        ActiveRecord::Base.connection.execute(query)
       end
-      collection
     rescue 
       false
     end
@@ -345,12 +377,17 @@ module SqlHelper
   def find_by_three_column(columns, values, operator ,sort)
     begin 
       if sort == "year_of_publication"
-        collection = Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%' #{operator} #{columns[2]} LIKE '%#{values[2]}%'  ORDER BY #{sort} DESC")
+        Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%' #{operator} #{columns[2]} LIKE '%#{values[2]}%'  ORDER BY #{sort} DESC")
       else 
-        # Not done yet
-        collection = Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%'  ORDER BY #{sort} DESC")
+        query = "SELECT * FROM 
+                 books
+                 LEFT OUTER JOIN 
+                 (SELECT book_id, AVG(score) FROM reviews GROUP BY book_id) AS sortback
+                 ON books.isbn13 = sortback.book_id
+                 WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%' #{operator} #{columns[2]} LIKE '%#{values[2]}%'
+                 ORDER BY avg"
+        ActiveRecord::Base.connection.execute(query)
       end
-      collection
     rescue
       false
     end
@@ -359,12 +396,17 @@ module SqlHelper
   def find_by_four_column(columns, values, operator ,sort)
     begin
       if sort == "year_of_publication"
-        collection = Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%' #{operator} #{columns[2]} LIKE '%#{values[2]}%' #{operator} #{columns[3]} LIKE '%#{values[3]}%'  ORDER BY #{sort} DESC")
+        Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%' #{operator} #{columns[2]} LIKE '%#{values[2]}%' #{operator} #{columns[3]} LIKE '%#{values[3]}%' ORDER BY #{sort} DESC")
       else 
-        # Not done yet
-        collection = Book.find_by_sql("SELECT * FROM books WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%'  ORDER BY #{sort} DESC")
+        query = "SELECT * FROM 
+          books
+          LEFT OUTER JOIN 
+          (SELECT book_id, AVG(score) FROM reviews GROUP BY book_id) AS sortback
+          ON books.isbn13 = sortback.book_id
+          WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%' #{operator} #{columns[2]} LIKE '%#{values[2]}%' #{operator} #{columns[3]} LIKE '%#{values[3]}%'
+          ORDER BY avg"
+        ActiveRecord::Base.connection.execute(query)
       end
-      collection
     rescue
       false
     end
