@@ -384,7 +384,7 @@ module SqlHelper
                  LEFT OUTER JOIN 
                  (SELECT book_id, AVG(score) FROM reviews GROUP BY book_id) AS sortback
                  ON books.isbn13 = sortback.book_id
-                 WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%' #{operator} #{columns[2]} LIKE '%#{values[2]}%'
+                 WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator[0]} #{columns[1]} LIKE '%#{values[1]}%' #{operator[1]} #{columns[2]} LIKE '%#{values[2]}%'
                  ORDER BY avg"
         ActiveRecord::Base.connection.execute(query)
       end
@@ -403,7 +403,7 @@ module SqlHelper
           LEFT OUTER JOIN 
           (SELECT book_id, AVG(score) FROM reviews GROUP BY book_id) AS sortback
           ON books.isbn13 = sortback.book_id
-          WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator} #{columns[1]} LIKE '%#{values[1]}%' #{operator} #{columns[2]} LIKE '%#{values[2]}%' #{operator} #{columns[3]} LIKE '%#{values[3]}%'
+          WHERE #{columns[0]} LIKE '%#{values[0]}%' #{operator[0]} #{columns[1]} LIKE '%#{values[1]}%' #{operator[1]} #{columns[2]} LIKE '%#{values[2]}%' #{operator[2]} #{columns[3]} LIKE '%#{values[3]}%'
           ORDER BY avg"
         ActiveRecord::Base.connection.execute(query)
       end
