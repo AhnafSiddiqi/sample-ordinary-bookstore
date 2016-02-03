@@ -10,7 +10,7 @@ There are 3 main branches and all other branches should be a child of these
 ## Quick Start
 Clone the repo and bundle
 
-    git clone https://github.com/AhnafSiddiqi/sample-ordinary-bookstore.git
+    git clone https://github.com/remmihsorp/sample-ordinary-bookstore.git
     cd sample-ordinary-bookstore
     bundle install
 
